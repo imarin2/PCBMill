@@ -27,7 +27,7 @@ class PCBMill extends Plugin {
 		/** TO DO  */
 
 		/** remove files */
-		shell_exec('sudo rm -rf '.PLUGINSPATH.strtolower(get_class($this)));
+		shell_exec('sudo rm -rf '.PLUGINSPATH.get_class($this));
 
 		/** SET MESSAGE TO DISPLAY */
 		$this->session->set_flashdata('message', "Plugin <strong>".get_class($this)."</strong> removed");
