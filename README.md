@@ -10,7 +10,9 @@ Linux
 =====
 
 git clone https://github.com/imarin2/PCBMill.git
+
 mv PCBMill pcbmill
+
 zip -r pcbmill.zip pcbmill -x *.git*
 
 Now go to the FAB-UI, plugins (plug icon on the top right of the screen), and upload the generated zip file.
