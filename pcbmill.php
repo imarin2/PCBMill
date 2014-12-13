@@ -175,7 +175,7 @@ class Pcbmill extends Plugin {
 	    * IMPOSTAZIONI LAYOUT
 	  */
 
-	  $this->layout->add_css_file(array('src'=>'application/modules/create/assets/css/create.css', 'comment'=>'create css'));
+	  $this->layout->add_css_file(array('src'=>'application/plugins/pcbmill/assets/css/create.css', 'comment'=>'create css'));
 
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/fuelux/wizard/wizard.min.js', 'comment' => 'javascript for the wizard'));
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/datatables/jquery.dataTables.min.js', 'comment'=>''));
@@ -189,7 +189,7 @@ class Pcbmill extends Plugin {
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/fixed_queue.js', 'comment' => ''));
 	  $this->layout->add_js_file(array('src'=> 'application/layout/assets/js/plugin/ace/src-min/ace.js', 'comment' => 'ACE EDITOR JAVASCRIPT'));
 		  
-	  $this->layout->add_js_file(array('src'=>'application/modules/create/assets/js/utilities.js', 'comment'=>'create utilities')); 
+	  $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/utilities.js', 'comment'=>'create utilities')); 
 
 	  $js_in_page  = $this->load->view('index/js', $data_js, TRUE);
 	  
