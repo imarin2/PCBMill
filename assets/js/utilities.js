@@ -129,12 +129,23 @@ function detail_files(object) {
         
          $('.file-row').click(function () {
             
+            if( $(this).find(':first-child').find('input').prop("checked") == true ) {
+            	$(this).find(':first-child').find('input').prop("checked", false);
+		$(this).removeClass('success');
+
+		if($('input[type=checkbox]:checked').length == 0){
+			$(".files-table tbody tr").removeClass('success');
+       			$('#btn-next').addClass('disabled')
+    		}
+		return;
+	    }
+	    
             $(this).find(':first-child').find('input').prop("checked", true);
             
-            $(".files-table tbody tr").removeClass('success');
+            /*$(".files-table tbody tr").removeClass('success');*/
             $(this).addClass('success');
             
-           	select_file($(this).find(':first-child').find('input').val());
+            select_file($(this).find(':first-child').find('input').val());
             
             
             /** LAOD INTERSTITIAL */
@@ -241,14 +252,15 @@ function select_file(id_file) {
 		if (file.id == id_file){
 			file_selected = file;
             
-            $('.file-title').html(' > ' + file_selected.file_name);
+            /*$('.file-title').html(' > ' + file_selected.file_name);*/
             
             /** ABLE NEXT BUTTON */
            $('#btn-next').removeClass('disabled');    
         }
 	});
-
 }
+
+
 
 /**
  * 

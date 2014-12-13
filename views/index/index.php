@@ -7,12 +7,12 @@
 <div class="row">
 	<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
 		<h1 class="page-title txt-color-blueDark">
-			<i class="icon-fab-print"></i>
-			Create
+			<i class="fa fa-bullseye"></i>
+			PCB
 			<span class="object-title">
 				<?php echo $_object_name ?>
 			</span>
-			<span class="file-title">
+			<span class="file-title disabled" >
 				<?php echo $_file_name; ?>
 			</span>
 		</h1>
