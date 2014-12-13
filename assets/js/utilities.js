@@ -90,6 +90,11 @@ function detail_files(object) {
 				  + '" type="checkbox" name="file-selected"><i></i> </label></td>';
 		  html += '<td><strong><i class="fa '+icon_type+'"></i>  '
 				  + file.file_name + status + '</strong> </td>';
+
+ 		  var icon_src = '<span class="icon-fab-additive"></span>';          
+
+		  html += '<td class="hidden-xs">' + file.print_type + icon_src +' </td>';
+				  
 				  
 		  html += '<td><textarea class="form-control" rows="1" id="'
 				  + file.id
@@ -106,9 +111,6 @@ function detail_files(object) {
 		  html += '<td><textarea class="form-control" rows="1" id="'
 				  + file.id
 				  + '" name="tool-length"></td>';
-
-		  var icon_src = '<span class="icon-fab-additive"></span>';          
-		  html += '<td class="hidden-xs">' + file.print_type + icon_src +' </td>';
 
 		  html += '</tr>';
 
