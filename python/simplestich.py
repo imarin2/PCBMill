@@ -103,10 +103,15 @@ def stitch_images(image1, image2, vertical=False, horizontal=True, transparency 
   #create destination image
   #ASSUMPTION: img1 and img2 have the same dimensions
 
-  dst = Image((image1.width*h, image1.height*v))
+  dst = Image((image1.width*h, image1.height+image2.height))
+
+  image1.show()
+  time.sleep(5)
+  image2.show()
+  time.sleep(5)
 
   # Find the keypoints.
-  match_features = image1.findKeypointMatch(image2)
+  match_features = image1.findKeypointMatch(image2,300)
   match_features[0].draw(width=5)
 
   #create and use mask to properly blit the (typically last) image
@@ -250,25 +255,6 @@ def getKeypointMatch(src,template,quality=500.00,minDist=0.2,minMatch=0.4):
         else:
             return None
 
-trace("PCB Clad Detection Initiated")
-port = '/dev/ttyAMA0'
-baud = 115200
-
-#initialize serial
-serial = serial.Serial(port, baud, timeout=0.6)
-serial.flushInput()
-
-macro("M741","TRIGGERED",2,"Front panel door control",1, verbose=False) 
-macro("M402","ok",2,"Retracting Probe (safety)",1, warning=True, verbose=False) 
-macro("G27","ok",100,"Homing Z - Fast",0.1)     
-
-macro("G90","ok",5,"Setting abs mode",0.1, verbose=False)
-macro("G92 Z241.2","ok",5,"Setting correct Z",0.1, verbose=False)
-#M402 #DOUBLE SAFETY!
-macro("M402","ok",2,"Retracting Probe (safety)",1, verbose=False)
-
-macro("G0 X0 Y0 Z200 F5000","ok",5,"Moving to start Z height",10)
-
 init_pos = 10
 end_pos = 210
 spacing = 50
@@ -276,17 +262,6 @@ spacing = 50
 n_pos = int((end_pos-init_pos)/spacing)
 
 panorama_shot_positions=np.linspace(init_pos, end_pos, n_pos)
-
-trace("Taking camera shots...")
-
-macro("M701 S200","ok",15,"Setting light", 0.1, warning=True,verbose=True)
-macro("M702 S200","ok",15,"Setting light", 0.1, warning=True,verbose=False)
-macro("M703 S200","ok",15,"Setting light", 0.1, warning=True,verbose=False)
-
-for (p,ypos) in enumerate(panorama_shot_positions):
-	macro("G0 X20 Y"+str(ypos)+" F10000","ok",15,"Moving to Position: "+str(p),0.1, warning=True,verbose=True)
-#	subprocess.call("sudo raspistill -hf -vf --exposure off -awb sun -ISO 400 -w 1920 -h 1080 -o /var/www/temp/pan_%s.jpg -t 0" % p, shell=True)
-	subprocess.call("sudo raspistill -hf -vf --exposure off -awb sun -ISO 400 -w 640 -h 480 -o /var/www/temp/pan_%s.jpg -t 0" % p, shell=True)
 
 img = Image("/var/www/temp/pan_0.jpg")
 
