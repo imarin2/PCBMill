@@ -58,46 +58,62 @@ function detail_files(object) {
 		html += '<th></th>';
 		html += '<th>File</th>';
 		html += '<th class="hidden-xs">Type</th>';
+		html += '<th class="hidden-xs">Manufacture Order</th>';
+		html += '<th class="hidden-xs">PCB Side</th>';
+		html += '<th class="hidden-xs">Tool length (mm)</th>';		
 		html += '</tr>';
 		html += '</thead>';
 
 		html += '<tbody>'
 
 		$
-				.each(
-						files,
-						function(index, file) {
-                           // if(jQuery.inArray( file.file_ext, printable_files) >= 0 ){
-                            
-                                var extended_class = '';
-                                var status = '<i class="icon-fab-printable pull-right"></i>';
-                                var icon_type = 'fa-cubes txt-color-blue';
-                                
-                                if(file.file_ext == '.stl' ){
-                                    extended_class = 'warning';
-                                    status        = '<i class="icon-fab-not-printable pull-right"></i>';
-                                    var icon_type = 'fa-file-text-o txt-color-red';
-                                }
-                                
-                               	
-                               	//fa fa-file-text-o
-                               	
-                               
-                            
-    							html += '<tr class="file-row '+ extended_class +'" data-id="' + file.id + '">';
-    							html += '<td><label class="radio"><input class="obj-file" value="'
-    									+ file.id
-    									+ '" type="radio" name="file-selected"><i></i> </label></td>';
-    							html += '<td><strong><i class="fa '+icon_type+'"></i>  '
-    									+ file.file_name + status + '</strong> </td>';
-                                
-                                var icon_src = '<span class="icon-fab-additive"></span>';          
-    							html += '<td class="hidden-xs">' + file.print_type + icon_src +' </td>';
-                              
-    							html += '</tr>';
-                           
+		  .each(
+				  files,
+				  function(index, file) {
+	      // if(jQuery.inArray( file.file_ext, printable_files) >= 0 ){
+	      
+		  var extended_class = '';
+		  var status = '<i class="icon-fab-printable pull-right"></i>';
+		  var icon_type = 'fa-cubes txt-color-blue';
+		  
+		  if(file.file_ext == '.stl' ){
+		      extended_class = 'warning';
+		      status        = '<i class="icon-fab-not-printable pull-right"></i>';
+		      var icon_type = 'fa-file-text-o txt-color-red';
+		  }
+		  		  
+		  //fa fa-file-text-o
 
-						});
+		  html += '<tr class="file-row '+ extended_class +'" data-id="' + file.id + '">';
+		  html += '<td><label class="checkbox"><input class="obj-file" value="'
+				  + file.id
+				  + '" type="checkbox" name="file-selected"><i></i> </label></td>';
+		  html += '<td><strong><i class="fa '+icon_type+'"></i>  '
+				  + file.file_name + status + '</strong> </td>';
+				  
+		  html += '<td><textarea class="form-control" rows="1" id="'
+				  + file.id
+				  + '" name="manufacture-order"></td>';		  
+		  
+		  html += '<td><select class="form-control" id="'
+				  + file.id
+				  + '" name="manufacture_face">'
+				  + '<option>Top face</option>'
+				  + '<option>Bottom face</option>'
+				  + '<option>Drills(always top)</option>'				  
+				  '</select></td>';				  
+
+		  html += '<td><textarea class="form-control" rows="1" id="'
+				  + file.id
+				  + '" name="tool-length"></td>';
+
+		  var icon_src = '<span class="icon-fab-additive"></span>';          
+		  html += '<td class="hidden-xs">' + file.print_type + icon_src +' </td>';
+
+		  html += '</tr>';
+
+
+		});
 
 		html += '</tbody>';
 		html += '</table>';

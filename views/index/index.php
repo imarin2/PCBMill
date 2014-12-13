@@ -35,7 +35,7 @@
 						<span class="badge">
 							2
 						</span>
-						Choose File
+						Choose Files
 						<span class="chevron">
 						</span>
 					</li>
@@ -61,7 +61,7 @@
 						<span class="badge">
 							4
 						</span>
-						Printing
+						Manufacturing
 						<span class="chevron">
 						</span>
 					</li>
@@ -92,11 +92,10 @@
 					<?php echo $_step_6; ?>
 				</form>
 				<hr class="simple">
-				
 					<div id="wizard-buttons" class="actions text-align-right" style="<?php echo $_running == true ? 'display:none' : '';  ?>">
 						<button id="btn-prev" type="button" class="btn btn-sm btn-primary btn-prev disabled"><i class="fa fa-arrow-left"></i>&nbsp;Prev</button>&nbsp;
 						<button id="btn-next" type="button" class="btn btn-sm btn-success disabled" data-last="Finish">Next&nbsp;<i class="fa fa-arrow-right"></i></button>
-					</div>	
+					</div>
 			</div>
 		</div>
 	</div>
