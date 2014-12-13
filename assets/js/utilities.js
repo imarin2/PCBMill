@@ -106,7 +106,7 @@ function detail_files(object) {
 
 		  html += '<td><select class="form-control" id="'
 				  + file.id
-				  + '" name="manufacture_face">'
+				  + '" name="manufacture-face">'
 				  + '<option value="0">Top face</option>'
 				  + '<option value="1">Bottom face</option>'
 				  + '<option value="2">Drills(always top)</option>'				  
@@ -279,7 +279,7 @@ function select_file(id_file) {
 
 				files_selected.push(file);
 				files_manufacture_order.push($('input[name="manufacture-order"][id='+myfileid+']').val());
-                		files_side.push($('input[name="manufacture_face"][id='+myfileid+'] option:selected').val());
+                		files_side.push($('select[name="manufacture-face"][id='+myfileid+']').val());
                 		files_tool_length.push($('input[name="tool-length"][id='+myfileid+']').val());
         		}
         	});
