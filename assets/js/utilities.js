@@ -107,9 +107,9 @@ function detail_files(object) {
 		  html += '<td><select class="form-control" id="'
 				  + file.id
 				  + '" name="manufacture_face">'
-				  + '<option>Top face</option>'
-				  + '<option>Bottom face</option>'
-				  + '<option>Drills(always top)</option>'				  
+				  + '<option value="0">Top face</option>'
+				  + '<option value="1">Bottom face</option>'
+				  + '<option value="2">Drills(always top)</option>'				  
 				  '</select></td>';				  
 
 		  html += '<td><input id="'
@@ -264,19 +264,23 @@ function select_file(id_file) {
         }
 	});
 
-	$("input:checkbox[name=type]:checked").each(function()
+	files_selected = [];
+	files_manufacture_order = [];
+	files_side = [];
+	files_tool_length = [];
+
+	$("input[type=checkbox]:checked").each(function()
 	{
-		files_selected = [];
-		files_manufacture_order = [];
-		files_side = [];
-		files_tool_length = [];
+		
+		var myfileid = $(this).val();
 
 	        $.each(object.files.data, function(index, file) {
-                	if (file.id == $(this).val()){
-                	        files_selected.push(file);
-				files_manufacture_order.push($('input[name="manufacture-order"][id=$(this).val()].val()');
-                		files_side.push($('input[name="manufacture_face"][id=$(this).val()].val()');
-                		files_tool_length.push($('input[name="tool-length"][id=$(this).val()].val()');
+                	if (file.id == myfileid){
+
+				files_selected.push(file);
+				files_manufacture_order.push($('input[name="manufacture-order"][id='+myfileid+']').val());
+                		files_side.push($('input[name="manufacture_face"][id='+myfileid+'] option:selected').val());
+                		files_tool_length.push($('input[name="tool-length"][id='+myfileid+']').val());
         		}
         	});
 
