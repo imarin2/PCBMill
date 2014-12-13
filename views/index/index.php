@@ -1,3 +1,9 @@
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+
 <div class="row">
 	<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
 		<h1 class="page-title txt-color-blueDark">

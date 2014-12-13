@@ -58,9 +58,9 @@ function detail_files(object) {
 		html += '<th></th>';
 		html += '<th>File</th>';
 		html += '<th class="hidden-xs">Type</th>';
-		html += '<th class="hidden-xs">Manufacture Order</th>';
-		html += '<th class="hidden-xs">PCB Side</th>';
-		html += '<th class="hidden-xs">Tool length (mm)</th>';		
+		html += '<th>Manufacture Order</th>';
+		html += '<th>PCB Side</th>';
+		html += '<th>Tool length (mm)</th>';		
 		html += '</tr>';
 		html += '</thead>';
 
@@ -95,11 +95,11 @@ function detail_files(object) {
 
 		  html += '<td class="hidden-xs">' + file.print_type + icon_src +' </td>';
 				  
-				  
-		  html += '<td><textarea class="form-control" rows="1" id="'
-				  + file.id
-				  + '" name="manufacture-order"></td>';		  
-		  
+		  		  
+		  html += '<td><input id="'
+				+ file.id
+				+'" name="manufacture-order" class="input-xlarge" type="number" min="0"></td>';
+
 		  html += '<td><select class="form-control" id="'
 				  + file.id
 				  + '" name="manufacture_face">'
@@ -108,9 +108,9 @@ function detail_files(object) {
 				  + '<option>Drills(always top)</option>'				  
 				  '</select></td>';				  
 
-		  html += '<td><textarea class="form-control" rows="1" id="'
-				  + file.id
-				  + '" name="tool-length"></td>';
+		  html += '<td><input id="'
+				+ file.id
+				+'" name="tool-length" class="input-xlarge" type="number" step="0.01" min="0"></td>';
 
 		  html += '</tr>';
 
