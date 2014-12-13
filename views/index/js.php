@@ -24,7 +24,7 @@
 	var array_progress_steps =  <?php echo $_progress_steps; ?>;
 	
 	/*var ajax_endpoint         = '<? echo site_url('create') ?>';*/
-    var ajax_endpoint         = '<? echo module_url('create') ?>';
+    var ajax_endpoint         = "/var/www/fabui/application/plugins/pcbmill";
 	/*var ajax_object_endopoint = '<?php echo site_url('objectmanager')?>';*/
     var ajax_object_endopoint = '<?php echo module_url('objectmanager')?>';
     var ajax_intertitial_endpoint = '<?php echo module_url('interstitial')  ?>';

@@ -14,7 +14,7 @@
     			
     			<div class="row">
     				<div class="col-sm-6 text-center">
-    					<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/close-panel.png" />
+    					<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/close-panel.png" />
     				</div>
     				<div class="col-sm-6 text-center">
     					<h1>
@@ -38,7 +38,7 @@
     			
     			<div class="row">
     				<div class="col-sm-6 text-center">
-    					<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/feeder.png" />
+    					<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/feeder.png" />
     				</div>
     				<div class="col-sm-6 text-center">
     					<h1>
@@ -67,7 +67,7 @@
                 <div class="row">
                     
                     <div class="col-sm-6 text-center">
-                        <img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/additive/1.png" />
+                        <img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/additive/1.png" />
                     </div>
                     
                     <div class="col-sm-6 text-center">
@@ -94,7 +94,7 @@
                 
                 <div class="row">
                     <div class="col-sm-6 text-center">
-                        <img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/additive/2.png" />
+                        <img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/additive/2.png" />
                     </div>
                     
                     <div class="col-sm-6 text-center">
@@ -168,7 +168,7 @@
 			<div class="well">
 				<div class="row">
 					<div class="col-sm-6 text-center">
-						<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/homing.png" />
+						<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/homing.png" />
 					</div>
 					<div class="col-sm-6 text-center">
 						 <div class="form-group">
@@ -190,7 +190,7 @@
 			<div class="well">
 				<div class="row">
 					<div class="col-sm-6 text-center">
-						<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/abl.png" />
+						<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/abl.png" />
 					</div>
 					
 					<div class="col-sm-6 text-center" >
@@ -254,7 +254,7 @@
         
         <div class="col-sm-6">
         	<div class="well">
-        		<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/modules/create/assets/img/homing.png" />
+        		<img style="max-width: 50%; display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/homing.png" />
         	</div>
         </div>
     
