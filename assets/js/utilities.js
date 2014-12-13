@@ -3,6 +3,10 @@
  */
 var object;
 var file_selected;
+var files_selected = [];
+var files_manufacture_order = [];
+var files_side = [];
+var files_tool_length = [];
 var stop_monitor = false;
 var interval_monitors;
 var monitor_count = 0; //counter for count how many times monitor we'll be called
@@ -148,7 +152,7 @@ function detail_files(object) {
             select_file($(this).find(':first-child').find('input').val());
             
             
-            /** LAOD INTERSTITIAL */
+            /** LOAD INTERSTITIAL */
             
             print_type = file_selected.print_type != '' ? file_selected.print_type : 'additive';
             
@@ -212,7 +216,8 @@ function detail_files(object) {
             
             $.ajax({
                /* url : ajax_endpoint + 'ajax/'+ print_type + '.php',*/
-              	url: '/fabui/create/show/' + print_type,
+                url: '/fabui/plugin/pcbmill/show/' + print_type, 
+              /*	url: '/fabui/create/show/' + print_type,*/
                 cache: false
             })
               .done(function( html ) {
@@ -258,6 +263,25 @@ function select_file(id_file) {
            $('#btn-next').removeClass('disabled');    
         }
 	});
+
+	$("input:checkbox[name=type]:checked").each(function()
+	{
+		files_selected = [];
+		files_manufacture_order = [];
+		files_side = [];
+		files_tool_length = [];
+
+	        $.each(object.files.data, function(index, file) {
+                	if (file.id == $(this).val()){
+                	        files_selected.push(file);
+				files_manufacture_order.push($('input[name="manufacture-order"][id=$(this).val()].val()');
+                		files_side.push($('input[name="manufacture_face"][id=$(this).val()].val()');
+                		files_tool_length.push($('input[name="tool-length"][id=$(this).val()].val()');
+        		}
+        	});
+
+	});
+
 }
 
 
