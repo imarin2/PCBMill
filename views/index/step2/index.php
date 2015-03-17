@@ -1,7 +1,8 @@
 <div class="step-pane" id="step2">
 	<div class="row">
 		<div class="col-sm-6">
-			<h2 class="text-primary">Select a file</h2>
+			<h2 class="text-primary">Select a file and manufacturing order</h2>
+			<h5 class="text-left">If probing is to be performed, it makes sense to manufacture first the file covering the most PCB area</h5>
 		</div>
 	</div>
     <div class="row">

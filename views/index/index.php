@@ -45,19 +45,17 @@
 						<span class="chevron">
 						</span>
 					</li>
-                    <!--
 					<li data-target="#step3" class="<?php echo $_running ? '' : ''; ?>">
 						<span class="badge">
 							3
 						</span>
-						Prepare print
+						Probing and zeroing
 						<span class="chevron">
 						</span>
 					</li>
-                    -->
 					<li data-target="#step4" class="<?php echo $_running ? '' : ''; ?>">
 						<span class="badge">
-							3
+							4
 						</span>
 						Get ready
 						<span class="chevron">
@@ -65,7 +63,7 @@
 					</li>
 					<li data-target="#step5" class="<?php echo $_running ? ' active' : ''; ?>">
 						<span class="badge">
-							4
+							5
 						</span>
 						Manufacturing
 						<span class="chevron">
@@ -73,7 +71,7 @@
 					</li>
 					<li data-target="#step6" class="<?php echo $_running ? '' : ''; ?>">
 						<span class="badge">
-							5
+							6
 						</span>
 						Finish
 						<span class="chevron">

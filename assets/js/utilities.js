@@ -6,7 +6,6 @@ var file_selected;
 var files_selected = [];
 var files_manufacture_order = [];
 var files_side = [];
-var files_tool_length = [];
 var stop_monitor = false;
 var interval_monitors;
 var monitor_count = 0; //counter for count how many times monitor we'll be called
@@ -64,7 +63,6 @@ function detail_files(object) {
 		html += '<th class="hidden-xs">Type</th>';
 		html += '<th>Manufacture Order</th>';
 		html += '<th>PCB Side</th>';
-		html += '<th>Tool length (mm)</th>';		
 		html += '</tr>';
 		html += '</thead>';
 
@@ -111,10 +109,6 @@ function detail_files(object) {
 				  + '<option value="1">Bottom face</option>'
 				  + '<option value="2">Drills(always top)</option>'				  
 				  '</select></td>';				  
-
-		  html += '<td><input id="'
-				+ file.id
-				+'" name="tool-length" class="input-xlarge" type="number" step="0.01" min="0"></td>';
 
 		  html += '</tr>';
 
@@ -267,7 +261,6 @@ function select_file(id_file) {
 	files_selected = [];
 	files_manufacture_order = [];
 	files_side = [];
-	files_tool_length = [];
 
 	$("input[type=checkbox]:checked").each(function()
 	{
@@ -280,7 +273,6 @@ function select_file(id_file) {
 				files_selected.push(file);
 				files_manufacture_order.push($('input[name="manufacture-order"][id='+myfileid+']').val());
                 		files_side.push($('select[name="manufacture-face"][id='+myfileid+']').val());
-                		files_tool_length.push($('input[name="tool-length"][id='+myfileid+']').val());
         		}
         	});
 
@@ -763,7 +755,7 @@ function check_wizard(){
     
     if(item.step == 3){
     	
-    	$('#btn-next').hide();
+    	$('#btn-next').addClass('disabled');
     }
     
     if(item.step >= 4){

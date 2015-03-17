@@ -98,6 +98,10 @@ class Pcbmill extends Plugin {
 	    */
 	  $data_step2[] = '';
 
+	  /**
+	    * IMPOSTAZIONI STEP2
+	    */
+	  $data_step3[] = '';
 
 	  /**
 	    * IMPOSTAZIONI STEP4
@@ -136,7 +140,7 @@ class Pcbmill extends Plugin {
 	  //inclusione dei step
 	  $data['_step_1']  = $this->load->view('index/step1/index', $data_step1, TRUE);
 	  $data['_step_2']  = $this->load->view('index/step2/index', $data_step2, TRUE);
-	  //$data['_step_3']  = $this->load->view('index/step3/index', $data_step3, TRUE);
+	  $data['_step_3']  = $this->load->view('index/step3/index', $data_step3, TRUE);
 	  $data['_step_4']  = $this->load->view('index/step4/index', $data_step4, TRUE);
 	  $data['_step_5']  = $this->load->view('index/step5/index', $data_step5, TRUE);
 	  $data['_step_6']  = $this->load->view('index/step6/index', '', TRUE);
