@@ -138,6 +138,7 @@ function detail_files(object) {
 		return;
 	    }
 	    
+	    /** This seems wrong, it is not the first child, but the one having the lowest manufacturing order **/
             $(this).find(':first-child').find('input').prop("checked", true);
             
             /*$(".files-table tbody tr").removeClass('success');*/
@@ -176,9 +177,7 @@ function detail_files(object) {
 				var z = number_format(attributes.dimensions.z, 2, '.', '');
 				   
 				model_info_html += '<h6>Model size: <span class="text-info">'+ x +' x '+ y +' x ' + z + ' mm</span></h6>';
-				model_info_html += '<h6>Filament used: <span class="text-info">'+ number_format(attributes.filament, 2, '.', '') +' mm</span></h6>';
 				model_info_html += '<h6>Estimated time print: <span class="text-info">'+ attributes.estimated_time+'</span></h6>';
-				model_info_html += '<h6>Layers: <span class="text-info">'+ attributes.number_of_layers +'</span></h6>';
 				   
 				model_info_html += '</div>';
 				 

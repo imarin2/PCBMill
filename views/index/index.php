@@ -87,7 +87,7 @@
 					<!-- STEP 2 -->
 					<?php echo $_step_2 ?>
 					<!-- STEP 3 -->
-					<?php //echo $_step_3; ?>
+					<?php echo $_step_3; ?>
 					<!-- STEP 4 -->
 					<?php echo $_step_4; ?>
 					<!-- STEP 5 -->
