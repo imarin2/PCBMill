@@ -18,6 +18,8 @@ var interval_stop;
 var elapsed_time_stop = 0;
 var max_time_stop = 6;
 
+var zeroingandprobing = false;
+
 /**/
 var progress_step;
 var second_for_step;
@@ -204,18 +206,31 @@ function detail_files(object) {
 			{
 			   
 			}
+
+	 if(zeroingandprobing == true){  
             
            $("#step4").html('');
             
             $.ajax({
-               /* url : ajax_endpoint + 'ajax/'+ print_type + '.php',*/
                 url: '/fabui/plugin/pcbmill/show/' + print_type, 
-              /*	url: '/fabui/create/show/' + print_type,*/
                 cache: false
             })
               .done(function( html ) {
                 $("#step4").html(html);
               });
+	}
+	else {
+           $("#step3").html('');
+                
+            $.ajax({
+                url: '/fabui/plugin/pcbmill/show/zeroingandprobing.php',
+                cache: false
+            })
+              .done(function( html ) {
+                $("#step3").html(html);
+              });
+	}
+
             
          });
          

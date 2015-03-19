@@ -4,7 +4,7 @@
     
         <div class="well text-center">
         
-            <h1>Subtractive file</h1>
+            <h1>Zeroing and probing</h1>
             <h2>Press the button to continue</h2>
         
         </div>
@@ -272,7 +272,8 @@
         
                         
         $.ajax({
-        		  url: ajax_endpoint + 'ajax/pre_print.php',
+//        		  url: ajax_endpoint + 'ajax/pre_print.php',
+        		  url: '/fabui/application/plugins/pcbmill/ajax/pre_print.php',
         		  dataType : 'json',
                   type: "POST", 
         		  async: true,

@@ -272,7 +272,8 @@
         
                         
         $.ajax({
-        		  url: ajax_endpoint + 'ajax/pre_print.php',
+//        		  url: ajax_endpoint + 'ajax/pre_print.php',
+        		  url: '/fabui/application/plugins/pcbmill/ajax/pre_print.php',
         		  dataType : 'json',
                   type: "POST", 
         		  async: true,
