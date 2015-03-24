@@ -272,7 +272,6 @@
         ticker_url = '/temp/check_' + timestamp + '.trace';
         
         
-                        
         $.ajax({
 //        		  url: ajax_endpoint + 'ajax/pre_print.php',
         		  url: '/fabui/application/plugins/pcbmill/ajax/pre_print.php',
@@ -305,7 +304,8 @@
 //                ticker_url = '';
 //                closeWait();
 //                $('#exec_button').removeClass('disabled');
-       	}); // this is just pre-print
+       	})//; // this is just pre-print
+	.then(function(response) {
 
         $.ajax({
 //        		  url: ajax_endpoint + 'ajax/pre_print.php',
@@ -339,7 +339,8 @@
                 ticker_url = '';
                 closeWait();
                 $('#exec_button').removeClass('disabled');
-       	});
+       		});
+	});
 
 
         
