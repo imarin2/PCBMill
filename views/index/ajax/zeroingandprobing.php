@@ -5,6 +5,8 @@
         <div class="well text-center">
         
             <h1>Zeroing and probing</h1>
+            <h3>The printer is going to prepare to Zero and Probe. It is important that you do NOT move the head by hand during this process.</h3>
+
             <h2>Press the button to continue</h2>
         
         </div>
@@ -281,39 +283,65 @@
         		  beforeSend: function( xhr ) {
         		  }
         	}).done(function(response) {
-                
+
                 var status = response.status;
-                
+
                 if(status == 200){
-                	
                 	$("#row_2").slideUp('slow', function(){
                     	$("#row_3").slideDown('slow');
                     });
-                	
-                    
+
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
                     $("#exec_button").html('Start');
-                    $('.check_result').html('');           
+                    $('.check_result').html('');
                     $("#exec_button").attr('data-action', '');
-                    
-                    
-                    
-                    
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);
                     $("#exec_button").html('Oops.. try again');
                     $("#exec_button").attr('data-action', 'check');
                 }
-                
-                
+
+//                ticker_url = '';
+//                closeWait();
+//                $('#exec_button').removeClass('disabled');
+       	}); // this is just pre-print
+
+        $.ajax({
+//        		  url: ajax_endpoint + 'ajax/pre_print.php',
+        		  url: '/fabui/application/plugins/pcbmill/ajax/prepare_to_zero.php',
+        		  dataType : 'json',
+                  type: "POST", 
+        		  async: true,
+                  data : { file : file_selected.full_path, time:timestamp},
+        		  beforeSend: function( xhr ) {
+        		  }
+        	}).done(function(response) {
+
+                var status = response.status;
+
+                if(status == 200){
+                	$("#row_2").slideUp('slow', function(){
+                    	$("#row_3").slideDown('slow');
+                    });
+
+                    $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
+                    $("#exec_button").html('Start');
+                    $('.check_result').html('');           
+                    $("#exec_button").attr('data-action', '');
+                }else{
+                    $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
+                    $('.check_result').html(response.trace);
+                    $("#exec_button").html('Oops.. try again');
+                    $("#exec_button").attr('data-action', 'check');
+                }
+
                 ticker_url = '';
                 closeWait();
                 $('#exec_button').removeClass('disabled');
-                
-                
-                
-        	});
+       	});
+
+
         
     }
     
