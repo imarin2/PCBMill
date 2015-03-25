@@ -6,6 +6,8 @@ var file_selected;
 var files_selected = [];
 var files_manufacture_order = [];
 var files_side = [];
+var files_max_x = 0;
+var files_max_y = 0;
 var stop_monitor = false;
 var interval_monitors;
 var monitor_count = 0; //counter for count how many times monitor we'll be called
@@ -177,7 +179,12 @@ function detail_files(object) {
 				var x = number_format(attributes.dimensions.x, 2, '.', '');
 				var y = number_format(attributes.dimensions.y, 2, '.', '');
 				var z = number_format(attributes.dimensions.z, 2, '.', '');
-				   
+
+				if(files_max_x<x)
+					files_max_x=x;
+				if(files_max_y<y)
+					files_max_y=y;
+   
 				model_info_html += '<h6>Model size: <span class="text-info">'+ x +' x '+ y +' x ' + z + ' mm</span></h6>';
 				model_info_html += '<h6>Estimated time print: <span class="text-info">'+ attributes.estimated_time+'</span></h6>';
 				   
@@ -224,6 +231,10 @@ function detail_files(object) {
                 
             $.ajax({
                 url: '/fabui/plugin/pcbmill/show/zeroingandprobing.php',
+//		type: 'post',
+//		async : true,
+//		dataType : 'json',
+//		data: {_files_max_x: files_max_x, _files_max_y: files_max_y },
                 cache: false
             })
               .done(function( html ) {

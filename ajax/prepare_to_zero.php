@@ -49,7 +49,7 @@ $_response_items['response']           = str_replace(PHP_EOL, '', $_response) ==
 //$_response_items['real_response']      = $_response;
 
 //$_response_items['trace']              = $_trace;
-//$_response_items['status']             = $_response_items['response']  == true ? 200 : 500;
+$_response_items['status']             = $_response_items['response']  == true ? 200 : 500;
 //$_response_items['status']             = 200;
 
 /** WAIT JUST 1 SECOND */

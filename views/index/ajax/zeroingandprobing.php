@@ -42,12 +42,16 @@
 					<div class="text-center">
 						<div class="row">
 							<div class="col-sm-7">
-								<img style=" display: inline;" class="img-responsive" src="application/plugins/pcbmill/assets/img/subtractive/1.png" />
+								<img style=" display: inline;" class="img-responsive" src="/fabui/application/plugins/pcbmill/assets/img/subtractive/1.png" />
 							</div>
 							<div class="col-sm-5">
 								
 								<h1></h1>
-								<h2 class="text-center">Jog the endmill to the desired origin point (X=0, Y=0, Z=0) and then press "Start"</h2>
+								<h3 class="text-center">Make sure that the tool (e.g.endmill) is mounted in the head. Jog the tool to the desired origin point (X=0, Y=0) and press the concentric circles button to set the zero.</h3>
+								<h3 class="text-center">Note that Z=0 will be calculated via electric conductivity between the tool and the workpiece (e.g. copper clad).</h3>
+								<h3 class="text-center">Please connect the external endstop to the copper clad (PCB).</h3>
+								<h3 class="text-center">Then press "Start"</h3>
+								<h3 class="text-center">x_max, y_max: <p id="xysizes"></p> </h3>
 								
 							</div>
 						</div>
@@ -204,7 +208,13 @@
         var actual_row;
         var next_row;
         var action = $(this).attr('data-action');
-        
+
+//	var files_max_x = $_POST['_files_max_x'];
+	//files_max_y= $_GET["_files_max_y"]; 
+
+	$('#xysizes').html("("+files_max_x+","+files_max_y+")");
+
+//	document.getElementById("xysizes").innerHTML = "("+files_max_x+","+files_max_y+")"; 
         
         $( ".interstitial" ).each(function( index ) {
                 
@@ -247,6 +257,8 @@
                     case 3:
                         $("#exec_button").html('Print');
                         $('#exec_button').removeClass('disabled');
+			$('#xysizes').html('33');
+
                         break;
                     
                 }
@@ -327,7 +339,7 @@
 
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
                     $("#exec_button").html('Start');
-                    $('.check_result').html('');           
+                    $('.check_result').html('');
                     $("#exec_button").attr('data-action', '');
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
