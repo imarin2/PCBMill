@@ -172,7 +172,7 @@
 							<div class="col-sm-5">
 								<h1></h1>
 								<h3 class="text-center">The bed is going to be probed.</h3>
-								<h3 class="text-center">Make sure the information is correct, select the granularity, and then press "Start".</h3>
+								<h3 class="text-center">Make sure the information is correct, select the granularity, and then press "Start Measurement".</h3>
 							</div>
 						</div>
 					</div>
@@ -287,7 +287,7 @@
             $("#row_" + next_row).slideDown('slow', function(){
 
             	if(actual_row == 3){
-            		probing();
+            		initialize_probing();
             		return false;
             	}
                 switch(next_row){
@@ -970,7 +970,7 @@ $.fn.textWidth = function(text, font) {
         
     }
 
-    function probing() {
+    function initialize_probing() {
         /* Check if Calibration is already running */
         $.ajax({
             type: "POST",
@@ -1000,7 +1000,7 @@ $.fn.textWidth = function(text, font) {
 
         image = paper.image("/fabui/application/plugins/pcbmill/assets/img/bed.png", imagePositionX, 0, 321, 321);
 
-        screwInfoText = paper.text(width / 2 + posX, height / 2 + posY, "Select screws to calibrate").attr({
+/*        screwInfoText = paper.text(width / 2 + posX, height / 2 + posY, "Select screws to calibrate").attr({
             "font-family": "Arial",
             "font-size": "20px",
             "font-weight": "normal",
@@ -1009,9 +1009,9 @@ $.fn.textWidth = function(text, font) {
             "stroke-width": "0px",
             "text-anchor": "center",
             "font-style": "normal"
-        });
+        });*/
 
-        bedScanInfoText = paper.text(width / 2 + posX, height / 2 + posY, "Select granularity of Scan").attr({
+/*        bedScanInfoText = paper.text(width / 2 + posX, height / 2 + posY, "Select granularity of Scan").attr({
             "font-family": "Arial",
             "font-size": "20px",
             "font-weight": "normal",
@@ -1020,7 +1020,7 @@ $.fn.textWidth = function(text, font) {
             "stroke-width": "0px",
             "text-anchor": "center",
             "font-style": "normal"
-        });
+        });*/
 
         bedScanInfoText.hide();
         var circleSize = 5;
@@ -1053,10 +1053,12 @@ $.fn.textWidth = function(text, font) {
         lowerRightScrew.click(onClick);
 
         /* Hide GUI Elements */
-        $("#SliderBedScanGranularityText").hide();
-        $("#SliderBedScanGranularity").hide();
+        /*$("#SliderBedScanGranularityText").hide();
+        $("#SliderBedScanGranularity").hide();*/
+        $("#AccuracyOfScan").hide();
+        $("#slider").hide();
 
-        calibrationMethodStr = "SCREW_CALIBRATION";
+        calibrationMethodStr = "BED_MEASUREMENT";
 
         calculatePointsForMeasurement(0, calibrationMethodStr);
 
