@@ -22,6 +22,11 @@ var max_time_stop = 6;
 
 var zeroingandprobing = false;
 
+var x_zero = 0;
+var y_zero = 0;
+var z_zero = 0;
+var zt_zero = 0;
+
 /**/
 var progress_step;
 var second_for_step;

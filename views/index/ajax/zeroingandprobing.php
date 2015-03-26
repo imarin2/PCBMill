@@ -159,6 +159,24 @@
 </div>
 
 <div id="row_4" class="row interstitial" style="display: none;">
+
+    <div class="col-sm-12">
+    
+        <div class="well text-center">
+        
+            <h1>Configuring Zero</h1>
+            <h2 id="res-icon" class="fa fa-spinner"></h2>
+                
+            <p class="check_result"></p>
+        
+        </div>
+    
+    </div>
+
+</div>
+
+
+<div id="row_5" class="row interstitial" style="display: none;">
 	<div class="col-sm-12">
 		<div class="well">
 			<div class="row">
@@ -262,7 +280,7 @@
             } 
         });
         
-        if(actual_row == 4){
+        if(actual_row == 6){
             
             print_object();
             return false;
@@ -273,6 +291,12 @@
                 pre_print();
                 return false; 
         }
+
+        if(action == "configzero"){
+                configure_zero();
+                return false; 
+        }
+
 
         next_row = actual_row + 1;
         
@@ -286,7 +310,7 @@
             
             $("#row_" + next_row).slideDown('slow', function(){
 
-            	if(actual_row == 3){
+            	if(actual_row == 5){
             		initialize_probing();
             		return false;
             	}
@@ -296,11 +320,11 @@
                         pre_print();
                         break;
 
-		    case 3:
+		    case 4:
 			//probing();
 			break;
                     
-                    case 4:
+                    case 6:
                         $("#exec_button").html('Print');
                         $('#exec_button').removeClass('disabled');
 			$('#xysizes').html('33');
@@ -343,14 +367,14 @@
                 var status = response.status;
 
                 if(status == 200){
-                	$("#row_2").slideUp('slow', function(){
-                    	$("#row_3").slideDown('slow');
-                    });
+//                	$("#row_2").slideUp('slow', function(){
+//                    	$("#row_3").slideDown('slow');
+//                    });
 
-                    $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
-                    $("#exec_button").html('Start');
-                    $('.check_result').html('');
-                    $("#exec_button").attr('data-action', '');
+//                    $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
+//                    $("#exec_button").html('Start');
+//                    $('.check_result').html('');
+//                    $("#exec_button").attr('data-action', 'configzero');
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);
@@ -385,7 +409,7 @@
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
                     $("#exec_button").html('Next');
                     $('.check_result').html('');
-                    $("#exec_button").attr('data-action', '');
+                    $("#exec_button").attr('data-action', 'configzero');
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);
@@ -398,6 +422,66 @@
                 $('#exec_button').removeClass('disabled');
        		});
 	});
+
+    }
+
+    function configure_zero(){
+       
+       	openWait('Configuring zero');
+       	 
+        $('#exec_button').addClass('disabled');
+        $("#res-icon").removeClass('fa-warning fa-check txt-color-green txt-color-red fa-spinner fa-spin');
+        $("#res-icon").addClass('fa-spinner fa-spin');
+        $('#modal_link').addClass('disabled');
+        
+        
+        var timestamp = new Date().getTime();
+            
+        ticker_url = '/temp/check_' + timestamp + '.trace';
+        
+        
+        $.ajax({
+//        		  url: ajax_endpoint + 'ajax/pre_print.php',
+        		  url: '/fabui/application/plugins/pcbmill/ajax/configure_zero.php',
+        		  dataType : 'json',
+                  type: "POST", 
+        		  async: true,
+                  data : { file : file_selected.full_path, time:timestamp},
+        		  beforeSend: function( xhr ) {
+        		  }
+        	}).done(function(response) {
+
+                var status = response.status;
+
+                if(status == 200){
+
+  		   /* var zerocoords = json_decode(response.zerocoords);
+
+		    x_zero = zerocoords->{'x'};
+		    y_zero = zerocoords->{'y'};
+		    z_zero = zerocoords->{'z'};
+		    zt_zero = zerocoords->{'xt'};*/
+
+                	$("#row_3").slideUp('slow', function(){});
+                	$("#row_4").slideUp('slow', function(){
+                    	$("#row_5").slideDown('slow');
+                    });
+
+                    $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
+                    $("#exec_button").html('Start');
+                    $('.check_result').html('');
+                    $("#exec_button").attr('data-action', '');
+                }else{
+                    $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
+                    $('.check_result').html(response.trace);
+                    $("#exec_button").html('Oops.. try again');
+                    $("#exec_button").attr('data-action', 'configzero');
+                }
+
+                ticker_url = '';
+                closeWait();
+                $('#exec_button').removeClass('disabled');
+       	});//; // this is just pre-print
 
     }
     
