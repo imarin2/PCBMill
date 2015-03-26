@@ -3,7 +3,7 @@
  Plugin Name: PCBMill
  Plugin URI: https://github.com/imarin2/PCBMill
  Version: 0.1
- Description: Plugin to mill insulation milling files, as the ones created with FlatCAM
+ Description: Plugin to mill insulation milling files, as the ones created with FlatCAM or Heekscnc. Including code from FABUI and Procrash's advance bed calibration plugin.
  Author: Imarin (if you contribute code, put your name here)
  Author URI: http://forum.fabtotum.cc/showthread.php?1589-PCBMill-A-new-FABtotum-pluging-to-mill-PCBs&p=5319#post5319
  Plugin Slug: pcbmill
@@ -181,6 +181,11 @@ class Pcbmill extends Plugin {
 
 	  $this->layout->add_css_file(array('src'=>'application/plugins/pcbmill/assets/css/create.css', 'comment'=>'create css'));
 
+          $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/ColourGradient.js', 'comment'=>''));
+          $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/jsapi.js', 'comment'=>''));
+          $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/raphael-min.js', 'comment'=>''));
+          $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/SurfacePlot.js', 'comment'=>''));
+
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/fuelux/wizard/wizard.min.js', 'comment' => 'javascript for the wizard'));
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/datatables/jquery.dataTables.min.js', 'comment'=>''));
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/datatables/dataTables.colVis.min.js', 'comment'=>''));
@@ -194,11 +199,13 @@ class Pcbmill extends Plugin {
 	  $this->layout->add_js_file(array('src'=> 'application/layout/assets/js/plugin/ace/src-min/ace.js', 'comment' => 'ACE EDITOR JAVASCRIPT'));
 		  
 	  $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/utilities.js', 'comment'=>'create utilities')); 
+	  $this->layout->add_css_file(array('src'=>'application/plugins/pcbmill/views/index/index.css', 'comment'=>''));
 
 	  $js_in_page  = $this->load->view('index/js', $data_js, TRUE);
 	  
 	  $this->layout->add_js_in_page(array('data'=> $js_in_page, 'comment' => 'create module'));
 	  $this->layout->view('index/index', $data);
+
 	}
 
 	/** show additive o subtractive preparation print */
