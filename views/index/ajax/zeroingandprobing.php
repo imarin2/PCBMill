@@ -444,7 +444,7 @@
 //        		  url: ajax_endpoint + 'ajax/pre_print.php',
         		  url: '/fabui/application/plugins/pcbmill/ajax/configure_zero.php',
         		  dataType : 'json',
-                  type: "POST", 
+                  type: "POST",
         		  async: true,
                   data : { file : file_selected.full_path, time:timestamp},
         		  beforeSend: function( xhr ) {
@@ -455,12 +455,12 @@
 
                 if(status == 200){
 
-  		   /* var zerocoords = json_decode(response.zerocoords);
+  		    var zerocoords = JSON.parse(response.zerocoords);
 
-		    x_zero = zerocoords->{'x'};
-		    y_zero = zerocoords->{'y'};
-		    z_zero = zerocoords->{'z'};
-		    zt_zero = zerocoords->{'xt'};*/
+		    x_zero = zerocoords.x;
+		    y_zero = zerocoords.y;
+		    z_zero = zerocoords.z;
+		    zt_zero = zerocoords.zt;
 
                 	$("#row_3").slideUp('slow', function(){});
                 	$("#row_4").slideUp('slow', function(){

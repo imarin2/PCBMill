@@ -483,9 +483,9 @@ elif preset=="external_endstop_coords":
     while not data[:22]=="echo:endstops hit:  Z:":
     	data=serial.readline().rstrip() 
         #issue G30 Xnn Ynn and waits reply.
-        if (time.time() - probe_start_time>20):  #timeout management
+        if (time.time() - probe_start_time>90):  #timeout management
         	trace("Touch probing failed",log_trace)
-		s_error++;
+		s_error += 1;
                 break   
         pass
 
@@ -493,7 +493,7 @@ elif preset=="external_endstop_coords":
     if data!="":
 	z_touch=float(data.split("Z:")[1].strip())
     	trace("Touching coordinates : ("+str(x_user)+","+str(y_user)+","+str(z_touch)+")",log_trace)
-	trace('{"x": '+str(x_user)+', "y":'+str(y_user)+', "z":'+str(z_user)+', "zt":'+str(z_touch)+'}');
+	response('{"x": '+str(x_user)+', "y":'+str(y_user)+', "z":'+str(z_user)+', "zt":'+str(z_touch)+'}\r\n');
 
     macro("G90","ok",2,"Abs_mode",1, verbose=False)
     macro("G0 Z90 F1000","ok",3,"Moving the plane ",1,verbose=False )

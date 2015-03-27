@@ -33,7 +33,7 @@ $_pid            = trim(str_replace('\n', '', $_output_command));
 /** WAIT JUST 1 SECOND */
 sleep(5);
 
-$_response = file_get_contents($_destination_response);
+$_response = file($_destination_response);
 $_trace    = file_get_contents($_destination_trace);
 $_trace    = str_replace(PHP_EOL, '<br>', $_trace);
 
@@ -47,17 +47,17 @@ $_trace    = str_replace(PHP_EOL, '<br>', $_trace);
 //$_response_items['check_response']     = $_destination_response;
 $_response_items['command']            = $_command;
 //$_response_items['pid']                = $_pid;
-$_response_items['url_check_response'] = host_name().'temp/response_'.$_time.'.log';
-$_response_items['response']           = str_replace(PHP_EOL, '', $_response) == 'true' ? true : false;
+//$_response_items['url_check_response'] = host_name().'temp/response_'.$_time.'.log';
+$_response_items['response']           = str_replace(PHP_EOL, '', $_response[1]) == 'true' ? true : false;
 //$_response_items['real_response']      = $_response;
 
 $_response_items['trace']              = $_trace;
 $_response_items['status']             = $_response_items['response']  == true ? 200 : 500;
 //$_response_items['status']             = 200;
 
-//$_zerocoords = preg_grep('/^{/', $_trace);
+$_response_items['zerocoords']         = str_replace(PHP_EOL, '', $_response[0]);
 
-//$_response_items['zerocoords']         = $_zerocoords;
+file_put_contents('php://stderr', print_r($_response_items, TRUE));
 
 
 //<span class="hidden-xs">[26/03/2015 15:35:04] -</span> Current coordinates : (115.0,91.0,35.52)
