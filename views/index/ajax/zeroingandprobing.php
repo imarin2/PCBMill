@@ -44,14 +44,11 @@
 								<img style=" display: inline;" class="img-responsive" src="/fabui/application/plugins/pcbmill/assets/img/subtractive/1.png" />
 							</div>
 							<div class="col-sm-5">
-								
 								<h1></h1>
 								<h3 class="text-center">Make sure that the tool (e.g.endmill) is mounted in the head. Jog the tool to the desired origin point (X=0, Y=0) and press the concentric circles button to set the zero.</h3>
 								<h3 class="text-center">Note that Z=0 will be calculated via electric conductivity between the tool and the workpiece (e.g. copper clad).</h3>
 								<h3 class="text-center">Please connect the external endstop to the copper clad (PCB).</h3>
 								<h3 class="text-center">Then press "Start"</h3>
-								<h3 class="text-center">x_max, y_max: <p id="xysizes"></p> </h3>
-								
 							</div>
 						</div>
 					</div>
@@ -196,15 +193,28 @@
 					</div>
 				</div>
 			    	<div class="col-sm-6">
+										<div class="row">
+											 <table style="width:100%">
+  												 <tr>
+    												    <th>PCB Dimensions X*Y (mm):</td>
+												    <th>Zero point (mm):</td>
+												    <th>Zero touching point (mm):</td>
+												  </tr>
+												  <tr>
+												    <td><div id="xysizes"></div></td>
+												    <td><div id="zeropoint"></div></td>
+												    <td><div id="zerotouch"></div></td>
+												  </tr>
+											</table> 
+										</div>
+
 			            <p id="SliderBedScanGranularityText" class="text-center">Granularity of Bed Scan</p>
 			            <div id="SliderBedScanGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
-			            <p id="AccuracyOfScan" class="text-center" val="0">Accuracy of measurements (low, but quick)</p>
-			            <div id="slider" style="left:50%; margin-left: -150px; width: 300px;"></div>
 			            <p class="text-center" style="margin-top: 10px;">
-			                <a id="ButtonStartStop" href="javascript:void(0);" class="btn btn-primary btn-default do-calibration" name="ButtonStartStop">Start new measurement</a>
+			                <a id="ButtonStartStop" href="javascript:void(0);" class="btn btn-primary btn-default do-calibration" name="ButtonStartStop">Start probing</a>
 			            </p>
 			            <p class="text-center" style="margin-top: 10px;">
-			                <a id="ButtonLoadLastMeasurement" href="javascript:void(0);" class="btn btn-primary btn-default load-last-measurement" name="ButtonLoadLastMeasurement">Load last measurement</a>
+			                <a id="ButtonLoadLastMeasurement" href="javascript:void(0);" class="btn btn-primary btn-default load-last-measurement" name="ButtonLoadLastMeasurement">Load last probing</a>
 			            </p>
 			            <div id="progressbar">
 			                <div id="progressLabel" class="progress-label">Loading...</div>
@@ -266,7 +276,7 @@
         var next_row;
         var action = $(this).attr('data-action');
 
-	$('#xysizes').html("("+files_max_x+","+files_max_y+")");
+	//$('#xysizes').html("("+files_max_x+","+files_max_y+")");
 
         $( ".interstitial" ).each(function( index ) {
             if($(this).is(":visible") ){
@@ -281,6 +291,7 @@
 
         }
 
+
         if(action == "check"){
                 pre_print();
                 return false; 
@@ -291,10 +302,10 @@
                 return false; 
         }
 
-/*      	if(actual_row == 5){
+      	if(actual_row == 5){
        		initialize_probing();
        		return false;
-       	}*/
+       	}
 
 
         next_row = actual_row + 1;
@@ -479,6 +490,9 @@
 		//force execution of the step controlling loop
 		//$('#exec_button').click();
 		// initilize the probing window
+		$('#xysizes').html(files_max_x+" x "+files_max_y);
+		$('#zeropoint').html("("+x_zero+", "+y_zero+", "+z_zero+")");
+		$('#zerotouch').html("("+x_zero+", "+y_zero+", "+zt_zero+")");
 		initialize_probing();
        	});
 
@@ -1138,8 +1152,8 @@ $.fn.textWidth = function(text, font) {
         /* Hide GUI Elements */
         /*$("#SliderBedScanGranularityText").hide();
         $("#SliderBedScanGranularity").hide();*/
-        $("#AccuracyOfScan").hide();
-        $("#slider").hide();
+        $("AccuracyOfScan").hide();
+        $("slider").hide();
 
         calibrationMethodStr = "BED_MEASUREMENT";
 
