@@ -57,7 +57,7 @@ $_response_items['status']             = $_response_items['response']  == true ?
 
 $_response_items['zerocoords']         = str_replace(PHP_EOL, '', $_response[0]);
 
-file_put_contents('php://stderr', print_r($_response_items, TRUE));
+//file_put_contents('php://stderr', print_r($_response_items, TRUE));
 
 
 //<span class="hidden-xs">[26/03/2015 15:35:04] -</span> Current coordinates : (115.0,91.0,35.52)

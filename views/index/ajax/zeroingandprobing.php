@@ -266,27 +266,21 @@
         var next_row;
         var action = $(this).attr('data-action');
 
-//	var files_max_x = $_POST['_files_max_x'];
-	//files_max_y= $_GET["_files_max_y"]; 
-
 	$('#xysizes').html("("+files_max_x+","+files_max_y+")");
 
-//	document.getElementById("xysizes").innerHTML = "("+files_max_x+","+files_max_y+")"; 
-        
         $( ".interstitial" ).each(function( index ) {
-                
             if($(this).is(":visible") ){
                 actual_row = parseInt($(this).attr('id').replace('row_', ''));
-            } 
+            }
         });
-        
+
         if(actual_row == 6){
-            
+
             print_object();
             return false;
-            
+
         }
-        
+
         if(action == "check"){
                 pre_print();
                 return false; 
@@ -296,6 +290,11 @@
                 configure_zero();
                 return false; 
         }
+
+/*      	if(actual_row == 5){
+       		initialize_probing();
+       		return false;
+       	}*/
 
 
         next_row = actual_row + 1;
@@ -310,10 +309,6 @@
             
             $("#row_" + next_row).slideDown('slow', function(){
 
-            	if(actual_row == 5){
-            		initialize_probing();
-            		return false;
-            	}
                 switch(next_row){
                     
                     case 2:
@@ -481,7 +476,11 @@
                 ticker_url = '';
                 closeWait();
                 $('#exec_button').removeClass('disabled');
-       	});//; // this is just pre-print
+		//force execution of the step controlling loop
+		//$('#exec_button').click();
+		// initilize the probing window
+		initialize_probing();
+       	});
 
     }
     
