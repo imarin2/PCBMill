@@ -1119,7 +1119,7 @@ $.fn.textWidth = function(text, font) {
             "font-style": "normal"
         });*/
 
-        bedScanInfoText.hide();
+//        bedScanInfoText.hide();
         var circleSize = 5;
 
         upperLeftScrew = paper.circle(posX + 30, posY + 10, circleSize).attr({
@@ -1152,12 +1152,27 @@ $.fn.textWidth = function(text, font) {
         /* Hide GUI Elements */
         /*$("#SliderBedScanGranularityText").hide();
         $("#SliderBedScanGranularity").hide();*/
-        $("AccuracyOfScan").hide();
-        $("slider").hide();
+        /*$("AccuracyOfScan").hide();
+        $("slider").hide();*/
 
         calibrationMethodStr = "BED_MEASUREMENT";
 
-        calculatePointsForMeasurement(0, calibrationMethodStr);
+
+
+	//$('#xysizes').html(files_max_x+" x "+files_max_y);
+        //$('#zeropoint').html("("+x_zero+", "+y_zero+", "+z_zero+")");
+        //$('#zerotouch').html("("+x_zero+", "+y_zero+", "+zt_zero+")");
+
+	var defaultgridsize = 5; // 5 mm of default grid size
+
+	var xpoints = Math.ceil(files_max_x / defaultgridsize);
+	var ypoints = Math.ceil(files_max_y / defaultgridsize);
+
+	var points = Math.max(xpoints,ypoints);
+
+	$("#SliderBedScanGranularity").slider('value',points);
+
+        calculatePointsForMeasurement(points, calibrationMethodStr);
 
     }
 
@@ -1178,10 +1193,10 @@ $.fn.textWidth = function(text, font) {
         }
         points = new Array(nrOfDivides * nrOfDivides + 2);
         /* Calculate Points for Bed Scan measurement */
-        var maxXPhys = 184; /* originally 195 */
-        var minXPhys = 22;
-        var maxYPhys = 210;
-        var minYPhys = 66.5;
+        var maxXPhys = 212; /* originally 195 */
+        var minXPhys = 0;
+        var maxYPhys = 225;
+        var minYPhys = 0;
 
         var ptsIdx = 0;
         for (var y = 0; y < (nrOfDivides + 2); y++) {
@@ -1233,7 +1248,7 @@ $.fn.textWidth = function(text, font) {
     }
 
 
-    var bedScanGranularityNr = 0;
+    var bedScanGranularityNr = 2;
 
     $("#calibrationMethod").change(function() {
         var selectedMethod = $(this).val();
