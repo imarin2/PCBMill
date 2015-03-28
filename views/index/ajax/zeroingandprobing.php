@@ -208,8 +208,10 @@
 											</table> 
 										</div>
 
-			            <p id="SliderBedScanGranularityText" class="text-center">Granularity of Bed Scan</p>
-			            <div id="SliderBedScanGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
+			            <p id="SliderBedScanXGranularityText" class="text-center">Granularity of Bed Scan in X axis</p>
+			            <div id="SliderBedScanXGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
+			            <p id="SliderBedScanYGranularityText" class="text-center">Granularity of Bed Scan in Y axis</p>
+			            <div id="SliderBedScanYGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
 			            <p class="text-center" style="margin-top: 10px;">
 			                <a id="ButtonStartStop" href="javascript:void(0);" class="btn btn-primary btn-default do-calibration" name="ButtonStartStop">Start probing</a>
 			            </p>
@@ -1174,8 +1176,6 @@ $.fn.textWidth = function(text, font) {
 	var xpoints = Math.ceil(parseFloat(files_max_x) / defaultgridsize);
 	var ypoints = Math.ceil(parseFloat(files_max_y) / defaultgridsize);
 
-	var points = Math.max(xpoints,ypoints);
-
         /* Calculate Points for Bed Scan measurement */
         maxXPhys = x_zero+parseFloat(files_max_x); /* originally 195 */
         minXPhys = x_zero;
@@ -1184,12 +1184,17 @@ $.fn.textWidth = function(text, font) {
 
 	//$("#SliderBedScanGranularity").slider('value',points);
 
-	hs=$('#SliderBedScanGranularity').slider();
-	hs.slider('option', 'value', points);
+	hs=$('#SliderBedScanXGranularity').slider();
+	hs.slider('option', 'value', xpoints);
 	hs.slider('option','slide')
-       		.call(hs,null,{ handle: $('.ui-slider-handle', hs), value: points });
+       		.call(hs,null,{ handle: $('.ui-slider-handle', hs), value: xpoints });
 
-        calculatePointsForMeasurement(points-1, calibrationMethodStr); // the -1 is to adjust for the difference between number of points and number of squares
+	hs=$('#SliderBedScanYGranularity').slider();
+	hs.slider('option', 'value', ypoints);
+	hs.slider('option','slide')
+       		.call(hs,null,{ handle: $('.ui-slider-handle', hs), value: ypoints });
+
+        //calculatePointsForMeasurement(nrpoints-1, calibrationMethodStr); // the -1 is to adjust for the difference between number of points and number of squares
 
     }
 
@@ -1225,7 +1230,7 @@ $.fn.textWidth = function(text, font) {
 
     }
 
-    function updateBedScanGranularity(nrOfDivides) {
+    function updateBedScanGranularity(nrOfXDivides,nrOfYDivides) {
         removeLines();
         var idx = 0;
         var drawingAreaCenter = $("#drawingArea").width();
@@ -1251,20 +1256,25 @@ $.fn.textWidth = function(text, font) {
         var startY = deltaY + yratio*minYPhys;
         var endY = (yratio*maxYPhys - deltaY);
 
+	var nrOfDivides = Math.max(nrOfXDivides,nrOfYDivides)
+
         for (var i = 0; i < (nrOfDivides + 2); i++) {
-            divX = i * (endX - startX) / (nrOfDivides + 1);
-            divY = i * (endY - startY) / (nrOfDivides + 1);
+            divX = i * (endX - startX) / (nrOfXDivides + 1);
+            divY = i * (endY - startY) / (nrOfYDivides + 1);
             //lines[idx++] = paper.path("M " + (posX + deltaX + divX) + " " + deltaY + " L " + (posX + deltaX + divX) + " " + (image.getBBox().height - deltaY));
             //lines[idx++] = paper.path("M " + (posX + deltaX) + " " + (deltaY + divY) + " L " + (posX + image.getBBox().width - deltaX) + " " + (deltaY + divY));
-	    lines[idx++] = paper.path("M " + (startX + divX) + " " + (startY+deltaY) + " L " + (startX + divX) + " " + (endY - deltaY));
-	    lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (startY+deltaY + divY) + " L " + (endX - deltaX) + " " + (startY+deltaY+ divY));
+	    if(i < nrOfXDivides + 2)
+	    	lines[idx++] = paper.path("M " + (startX + divX) + " " + (startY+deltaY) + " L " + (startX + divX) + " " + (endY - deltaY));
+	    if(i < nrOfYDivides + 2)
+	        lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (startY+deltaY + divY) + " L " + (endX - deltaX) + " " + (startY+deltaY+ divY));
         }
 
         calculatePointsForMeasurement(nrOfDivides, "BED_MEASUREMENT");
     }
 
 
-    var bedScanGranularityNr = 2;
+    var bedScanXGranularityNr = 2;
+    var bedScanYGranularityNr = 2;
 
     $("#calibrationMethod").change(function() {
         var selectedMethod = $(this).val();
@@ -1343,21 +1353,40 @@ $.fn.textWidth = function(text, font) {
         }
     });
 
-    function callbackOnSliderChange(event, ui) {
+    function callbackOnXSliderChange(event, ui) {
         var valStr = "";
         switch (ui.value) {}
-        bedScanGranularityNr = ui.value;
-        $("#SliderBedScanGranularityText").text("Granularity of Bed Scan (" + (bedScanGranularityNr + 1) + " x " + (bedScanGranularityNr + 1) + " squares)");
-        updateBedScanGranularity(bedScanGranularityNr);
+        bedScanXGranularityNr = ui.value;
+        $("#SliderBedScanXGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
+        $("#SliderBedScanYGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
+        updateBedScanGranularity(bedScanXGranularityNr,bedScanYGranularityNr);
     }
 
 
-    $("#SliderBedScanGranularity").slider({
+    $("#SliderBedScanXGranularity").slider({
         value: 0,
         min: 0,
         max: 100,
         step: 1,
-        slide: callbackOnSliderChange
+        slide: callbackOnXSliderChange
+    });
+
+    function callbackOnYSliderChange(event, ui) {
+        var valStr = "";
+        switch (ui.value) {}
+        bedScanYGranularityNr = ui.value;
+        $("#SliderBedScanXGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
+        $("#SliderBedScanYGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
+        updateBedScanGranularity(bedScanXGranularityNr,bedScanYGranularityNr);
+    }
+
+
+    $("#SliderBedScanYGranularity").slider({
+        value: 0,
+        min: 0,
+        max: 100,
+        step: 1,
+        slide: callbackOnYSliderChange
     });
 
 
