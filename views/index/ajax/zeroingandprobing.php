@@ -1021,20 +1021,22 @@ $.fn.textWidth = function(text, font) {
         lines = [];
     }
 
-    var points = [];
+    var points = [[]];
 
-    function calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides, method) {
+    function calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides) {
 
         points = new Array(nrOfYDivides + 2);
 
-        var ptsIdx = 0;
         for (var y = 0; y < (nrOfYDivides + 2); y++) {
 
 	    points[y]=new Array(nrOfXDivides + 2);
+
             divYPhys = y * (maxYPhys - minYPhys) / (nrOfYDivides + 1);
 
             for (var x = 0; x < (nrOfXDivides + 2); x++) {
+
                 divXPhys = x * (maxXPhys - minXPhys) / (nrOfXDivides + 1);
+
                 points[x][y] = [
                     minXPhys + divXPhys,
                     minYPhys + divYPhys,
@@ -1084,7 +1086,7 @@ $.fn.textWidth = function(text, font) {
 	        lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (startY+deltaY + divY) + " L " + (endX - deltaX) + " " + (startY+deltaY+ divY));
         }
 
-        //calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides, "BED_MEASUREMENT");
+        calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides);
     }
 
 
