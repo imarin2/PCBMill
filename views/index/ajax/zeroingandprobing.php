@@ -651,18 +651,6 @@ $.fn.textWidth = function(text, font) {
     var imageWidth = 331;
     var imageHeight = 331;
 
-    var upperLeftScrew;
-    var lowerLeftScrew;
-
-    var upperRightScrew;
-    var lowerRightScrew;
-
-    var upperLeftSelected = false;
-    var upperRightSelected = false;
-
-    var lowerLeftSelected = false;
-    var lowerRightSelected = false;
-
     var selectedColor = "#fff";
     var selectedFill = "#f00";
 
@@ -1022,8 +1010,6 @@ $.fn.textWidth = function(text, font) {
 	hs.slider('option','slide')
        		.call(hs,null,{ handle: $('.ui-slider-handle', hs), value: ypoints });
 
-        //calculatePointsForMeasurement(nrpoints-1, calibrationMethodStr); // the -1 is to adjust for the difference between number of points and number of squares
-
     }
 
     var lines = [];
@@ -1037,22 +1023,23 @@ $.fn.textWidth = function(text, font) {
 
     var points = [];
 
-    function calculatePointsForMeasurement(nrOfDivides, method) {
+    function calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides, method) {
 
-        points = new Array(nrOfDivides * nrOfDivides + 2);
+        points = new Array(nrOfYDivides + 2);
 
         var ptsIdx = 0;
-        for (var y = 0; y < (nrOfDivides + 2); y++) {
-            for (var x = 0; x < (nrOfDivides + 2); x++) {
-                divXPhys = x * (maxXPhys - minXPhys) / (nrOfDivides + 1);
-                divYPhys = y * (maxYPhys - minYPhys) / (nrOfDivides + 1);
-                points[ptsIdx] = [
+        for (var y = 0; y < (nrOfYDivides + 2); y++) {
+
+	    points[y]=new Array(nrOfXDivides + 2);
+            divYPhys = y * (maxYPhys - minYPhys) / (nrOfYDivides + 1);
+
+            for (var x = 0; x < (nrOfXDivides + 2); x++) {
+                divXPhys = x * (maxXPhys - minXPhys) / (nrOfXDivides + 1);
+                points[x][y] = [
                     minXPhys + divXPhys,
                     minYPhys + divYPhys,
-                    0,
-                    true /* YES, measure all points */
+                    0
                 ];
-                ptsIdx++;
             }
         }
 
@@ -1097,7 +1084,7 @@ $.fn.textWidth = function(text, font) {
 	        lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (startY+deltaY + divY) + " L " + (endX - deltaX) + " " + (startY+deltaY+ divY));
         }
 
-        calculatePointsForMeasurement(nrOfDivides, "BED_MEASUREMENT");
+        //calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides, "BED_MEASUREMENT");
     }
 
 
