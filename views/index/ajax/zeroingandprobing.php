@@ -1067,6 +1067,11 @@ $.fn.textWidth = function(text, font) {
         
     }
 
+   var maxXPhys = 0;
+   var minXPhys = 0;
+   var maxYPhys = 0;
+   var minYPhys = 0;
+
     function initialize_probing() {
         /* Check if Calibration is already running */
         $.ajax({
@@ -1165,12 +1170,23 @@ $.fn.textWidth = function(text, font) {
 
 	var defaultgridsize = 5; // 5 mm of default grid size
 
-	var xpoints = Math.ceil(files_max_x / defaultgridsize);
-	var ypoints = Math.ceil(files_max_y / defaultgridsize);
+	var xpoints = Math.ceil(parseFloat(files_max_x) / defaultgridsize);
+	var ypoints = Math.ceil(parseFloat(files_max_y) / defaultgridsize);
 
 	var points = Math.max(xpoints,ypoints);
 
-	$("#SliderBedScanGranularity").slider('value',points);
+        /* Calculate Points for Bed Scan measurement */
+        maxXPhys = x_zero+parseFloat(files_max_x); /* originally 195 */
+        minXPhys = x_zero;
+        maxYPhys = y_zero+parseFloat(files_max_y);
+        minYPhys = y_zero;
+
+	//$("#SliderBedScanGranularity").slider('value',points);
+
+	hs=$('#SliderBedScanGranularity').slider();
+	hs.slider('option', 'value', points);
+	hs.slider('option','slide')
+       		.call(hs,null,{ handle: $('.ui-slider-handle', hs), value: points });
 
         calculatePointsForMeasurement(points, calibrationMethodStr);
 
@@ -1188,15 +1204,8 @@ $.fn.textWidth = function(text, font) {
     var points = [];
 
     function calculatePointsForMeasurement(nrOfDivides, method) {
-        if (calibrationMethodStr == "SCREW_CALIBRATION") {
-            nrOfDivides = 0;
-        }
+
         points = new Array(nrOfDivides * nrOfDivides + 2);
-        /* Calculate Points for Bed Scan measurement */
-        var maxXPhys = 212; /* originally 195 */
-        var minXPhys = 0;
-        var maxYPhys = 225;
-        var minYPhys = 0;
 
         var ptsIdx = 0;
         for (var y = 0; y < (nrOfDivides + 2); y++) {
@@ -1213,12 +1222,6 @@ $.fn.textWidth = function(text, font) {
             }
         }
 
-        if (calibrationMethodStr == "SCREW_CALIBRATION") {
-            points[0][3] = lowerLeftSelected;
-            points[1][3] = lowerRightSelected;
-            points[2][3] = upperLeftSelected;
-            points[3][3] = upperRightSelected;
-        }
     }
 
     function updateBedScanGranularity(nrOfDivides) {
@@ -1228,20 +1231,32 @@ $.fn.textWidth = function(text, font) {
         var imagePositionX = 0; /* drawingAreaCenter / 2 - width / 2; */
         posX = imagePositionX;
 
-        var deltaX = 27;
-        var deltaY = 18;
+        /*maxXPhys = x_zero+files_max_x;
+        minXPhys = x_zero;
+        maxYPhys = y_zero+files_max_y;
+        minYPhys = y_zero;*/
 
-        var startX = posX + deltaX;
-        var endX = posX + image.getBBox().width - deltaX;
+	var xratio = image.getBBox().width/212; // 212 mm in X
+	var yratio = image.getBBox().height/232; // 232 mm in Y
 
-        var startY = deltaY;
-        var endY = (image.getBBox().height - deltaY);
+/*        var deltaX = 27;
+        var deltaY = 18;*/
+        var deltaX = 0;
+        var deltaY = 0;
+
+        var startX = posX + deltaX + xratio*minXPhys;
+        var endX = posX + xratio*maxXPhys - deltaX;
+
+        var startY = deltaY + yratio*minYPhys;
+        var endY = (yratio*maxYPhys - deltaY);
 
         for (var i = 0; i < (nrOfDivides + 2); i++) {
             divX = i * (endX - startX) / (nrOfDivides + 1);
             divY = i * (endY - startY) / (nrOfDivides + 1);
-            lines[idx++] = paper.path("M " + (posX + deltaX + divX) + " " + deltaY + " L " + (posX + deltaX + divX) + " " + (image.getBBox().height - deltaY));
-            lines[idx++] = paper.path("M " + (posX + deltaX) + " " + (deltaY + divY) + " L " + (posX + image.getBBox().width - deltaX) + " " + (deltaY + divY));
+            //lines[idx++] = paper.path("M " + (posX + deltaX + divX) + " " + deltaY + " L " + (posX + deltaX + divX) + " " + (image.getBBox().height - deltaY));
+            //lines[idx++] = paper.path("M " + (posX + deltaX) + " " + (deltaY + divY) + " L " + (posX + image.getBBox().width - deltaX) + " " + (deltaY + divY));
+	    lines[idx++] = paper.path("M " + (startX + divX) + " " + (startY+deltaY) + " L " + (startX + divX) + " " + (endY - deltaY));
+	    lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (startY+deltaY + divY) + " L " + (endX - deltaX) + " " + (startY+deltaY+ divY));
         }
 
         calculatePointsForMeasurement(nrOfDivides, "BED_MEASUREMENT");
