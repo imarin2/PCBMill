@@ -1057,8 +1057,10 @@ $.fn.textWidth = function(text, font) {
         maxYPhys = y_zero+files_max_y;
         minYPhys = y_zero;*/
 
+	var imageh = image.getBBox().height;
+
 	var xratio = image.getBBox().width/212; // 212 mm in X
-	var yratio = image.getBBox().height/232; // 232 mm in Y
+	var yratio = imageh/232; // 232 mm in Y
 
 /*        var deltaX = 27;
         var deltaY = 18;*/
@@ -1079,9 +1081,9 @@ $.fn.textWidth = function(text, font) {
             //lines[idx++] = paper.path("M " + (posX + deltaX + divX) + " " + deltaY + " L " + (posX + deltaX + divX) + " " + (image.getBBox().height - deltaY));
             //lines[idx++] = paper.path("M " + (posX + deltaX) + " " + (deltaY + divY) + " L " + (posX + image.getBBox().width - deltaX) + " " + (deltaY + divY));
 	    if(i < nrOfXDivides + 2)
-	    	lines[idx++] = paper.path("M " + (startX + divX) + " " + (startY+deltaY) + " L " + (startX + divX) + " " + (endY - deltaY));
+	    	lines[idx++] = paper.path("M " + (startX + divX) + " " + (imageh-startY) + " L " + (startX + divX) + " " + (imageh-endY));
 	    if(i < nrOfYDivides + 2)
-	        lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (startY+deltaY + divY) + " L " + (endX - deltaX) + " " + (startY+deltaY+ divY));
+	        lines[idx++] = paper.path("M " + (startX + deltaX) + " " + (imageh-(startY+divY)) + " L " + (endX - deltaX) + " " + (imageh-(startY+divY)) );
         }
 
         calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides);
