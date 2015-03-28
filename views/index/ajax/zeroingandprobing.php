@@ -486,7 +486,8 @@
 
                 ticker_url = '';
                 closeWait();
-                $('#exec_button').removeClass('disabled');
+                //$('#exec_button').removeClass('disabled');
+		//$('#exec_button').addClass('disabled');
 		//force execution of the step controlling loop
 		//$('#exec_button').click();
 		// initilize the probing window
@@ -1188,7 +1189,7 @@ $.fn.textWidth = function(text, font) {
 	hs.slider('option','slide')
        		.call(hs,null,{ handle: $('.ui-slider-handle', hs), value: points });
 
-        calculatePointsForMeasurement(points, calibrationMethodStr);
+        calculatePointsForMeasurement(points-1, calibrationMethodStr); // the -1 is to adjust for the difference between number of points and number of squares
 
     }
 
