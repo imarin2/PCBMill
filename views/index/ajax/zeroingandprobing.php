@@ -594,7 +594,7 @@ $.fn.textWidth = function(text, font) {
             progressLabel.show();
 
             var now = jQuery.now();
-            /* now = 1417816594544;     */
+             //now = 1417816594544;     
             lastTriggeredTimestamp = now;
             setTimeout(updateCalibProgress, 2000);
 
@@ -611,7 +611,6 @@ $.fn.textWidth = function(text, font) {
                     time: now,
                     accuracy: currentAccuracy,
                     calibration_method: calibrationMethodStr,
-                    bedScanGranularity: bedScanGranularityNr,
                     pointsToMeasure: JSON.stringify(points)
                 },
                 dataType: "html"
@@ -1035,7 +1034,7 @@ $.fn.textWidth = function(text, font) {
                 points[ptsIdx] = [
                     minXPhys + divXPhys,
                     minYPhys + divYPhys,
-                    0,
+                    zt_zero,
                     true /* YES, measure all points */
                 ];
                 ptsIdx++;

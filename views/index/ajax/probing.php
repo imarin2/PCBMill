@@ -15,14 +15,13 @@ function debug_to_console( $data ) {
 /** CREATE LOG FILES */
 $_time                      = $_POST['time'];
 /* $_time                      ='1417816594542'; */
-$PYTHON_PATH = "/var/www/fabui/application/plugins/advancedBedCalibration/assets/python/";
+$PYTHON_PATH = "/var/www/fabui/application/plugins/pcbmill/python/";
 $TEMP_PATH = $PYTHON_PATH."temp/";
-$_destination_trace         = $TEMP_PATH . 'advancedBedCalibration_' . $_time . '.trace';
-$_destination_response      = $TEMP_PATH . 'advancedBedCalibration_' . $_time . '.json';
-$_destination_points_file   = $TEMP_PATH . 'advancedBedCalibration_' . $_time . '.pts';
+$_destination_trace         = $TEMP_PATH . 'pcbmill_' . $_time . '.trace';
+$_destination_response      = $TEMP_PATH . 'pcbmill_' . $_time . '.json';
+$_destination_points_file   = $TEMP_PATH . 'pcbmill_' . $_time . '.pts';
 $_accuracy                  = $_POST['accuracy'];
 $_calibration_method        = strtoupper($_POST['calibration_method']);
-$_bedScanGranularity        = $_POST['bedScanGranularity'];
 $_pointsToMeasure           = $_POST['pointsToMeasure'];  /* json_decode not done as this is done in python */
 
 
@@ -37,6 +36,9 @@ function eliminateEmptyArrayValues($myArray) {
 	$myArray = array_values($myArray);
 	return $myArray;
 }
+
+file_put_contents('php://stderr', print_r($_calibration_method, TRUE));
+
 write_file($_destination_trace, '', 'w');
 chmod($_destination_trace, 0777);
 
@@ -55,14 +57,7 @@ fclose($myfile);
 /** EXEC COMMAND */
 $h_over = 50;
 
-$_command = 'sudo python '.$PYTHON_PATH.'advancedBedCalibration.py ' . $_destination_response . ' ' . $_destination_trace . ' ' .$_destination_points_file.' '. $h_over . ' '.$_calibration_method.' '.$_accuracy.' ';
-if ($_calibration_method=="SCREW_CALIBRATION") {
-	$_command .= '0';
-}
-if ($_calibration_method=="BED_MEASUREMENT") {
-	$_command .= $_bedScanGranularity;
-}
-
+$_command = 'sudo python '.$PYTHON_PATH.'ExternalEndstopProbe.py ' . $_destination_response . ' ' . $_destination_trace . ' ' .$_destination_points_file.' '. $h_over . ' '.$_calibration_method.' '.$_accuracy.' ';
 
 $_output_command = shell_exec($_command); 
 /** WAIT JUST 1 SECOND */
