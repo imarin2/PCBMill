@@ -208,9 +208,10 @@
 											</table> 
 										</div>
 
-			            <p id="SliderBedScanXGranularityText" class="text-center">Granularity of Bed Scan in X axis</p>
+                                    <p id="SliderBedScanGranularityText" class="text-center">Granularity of probing</p>
+			            <p id="SliderBedScanXGranularityText" class="text-center">Granularity in X axis</p>
 			            <div id="SliderBedScanXGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
-			            <p id="SliderBedScanYGranularityText" class="text-center">Granularity of Bed Scan in Y axis</p>
+			            <p id="SliderBedScanYGranularityText" class="text-center">Granularity in Y axis</p>
 			            <div id="SliderBedScanYGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
 			            <p class="text-center" style="margin-top: 10px;">
 			                <a id="ButtonStartStop" href="javascript:void(0);" class="btn btn-primary btn-default do-calibration" name="ButtonStartStop">Start probing</a>
@@ -1141,8 +1142,7 @@ $.fn.textWidth = function(text, font) {
         var valStr = "";
         switch (ui.value) {}
         bedScanXGranularityNr = ui.value;
-        $("#SliderBedScanXGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
-        $("#SliderBedScanYGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
+        $("#SliderBedScanGranularityText").text("Granularity of probing (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
         updateBedScanGranularity(bedScanXGranularityNr,bedScanYGranularityNr);
     }
 
@@ -1159,8 +1159,7 @@ $.fn.textWidth = function(text, font) {
         var valStr = "";
         switch (ui.value) {}
         bedScanYGranularityNr = ui.value;
-        $("#SliderBedScanXGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
-        $("#SliderBedScanYGranularityText").text("Granularity of Bed Scan (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
+        $("#SliderBedScanGranularityText").text("Granularity of probing (" + (bedScanXGranularityNr + 1) + " x " + (bedScanYGranularityNr + 1) + " squares)");
         updateBedScanGranularity(bedScanXGranularityNr,bedScanYGranularityNr);
     }
 
