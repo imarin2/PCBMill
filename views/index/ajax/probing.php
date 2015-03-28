@@ -37,7 +37,7 @@ function eliminateEmptyArrayValues($myArray) {
 	return $myArray;
 }
 
-file_put_contents('php://stderr', print_r($_calibration_method, TRUE));
+//file_put_contents('php://stderr', print_r($_calibration_method, TRUE));
 
 write_file($_destination_trace, '', 'w');
 chmod($_destination_trace, 0777);
@@ -61,7 +61,7 @@ $_command = 'sudo python '.$PYTHON_PATH.'ExternalEndstopProbe.py ' . $_destinati
 
 $_output_command = shell_exec($_command); 
 /** WAIT JUST 1 SECOND */
-sleep(1);
+sleep(2);
 
 /* $_response = json_decode(file_get_contents($_destination_response), TRUE); */
 

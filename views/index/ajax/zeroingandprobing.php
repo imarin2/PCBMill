@@ -691,7 +691,9 @@ $.fn.textWidth = function(text, font) {
                 currentProgress = currentPointsMeasured * 100.0 / currentPointsToMeasure;
                 currentProgress = parseFloat(currentProgress.toFixed(2));
 
-                var currentBedScanGranularity = measurementInformation['bedscanGranularity'];
+                /*var currentBedScanGranularity = measurementInformation['bedscanGranularity'];*/
+		currentBedScanGranularity = bedScanXGranularityNr;
+
                 var currentFeedrate = measurementInformation['feedrate'];
                 var currentProbesPerPoint = measurementInformation['probesPerPoint'];
                 var currentETA = measurementInformation['time_left'];
@@ -845,7 +847,7 @@ $.fn.textWidth = function(text, font) {
                     }
                     /* Update Visualisation */
 
-                    setupVisualisation(currentBedScanGranularity, measurementValues, currentPoint, currentProbe, currentProbesPerPoint);
+                    //setupVisualisation(currentBedScanGranularity, measurementValues, currentPoint, currentProbe, currentProbesPerPoint);
 
                 }
             } catch (e) {
