@@ -1021,30 +1021,29 @@ $.fn.textWidth = function(text, font) {
         lines = [];
     }
 
-    var points = [[]];
+    var points = [];
 
     function calculatePointsForMeasurement(nrOfXDivides, nrOfYDivides) {
 
-        points = new Array(nrOfYDivides + 2);
+       points = new Array(nrOfXDivides * nrOfYDivides + 2);
 
+        var ptsIdx = 0;
         for (var y = 0; y < (nrOfYDivides + 2); y++) {
-
-	    points[y]=new Array(nrOfXDivides + 2);
-
-            divYPhys = y * (maxYPhys - minYPhys) / (nrOfYDivides + 1);
-
             for (var x = 0; x < (nrOfXDivides + 2); x++) {
-
                 divXPhys = x * (maxXPhys - minXPhys) / (nrOfXDivides + 1);
-
-                points[x][y] = [
+                divYPhys = y * (maxYPhys - minYPhys) / (nrOfYDivides + 1);
+                points[ptsIdx] = [
                     minXPhys + divXPhys,
                     minYPhys + divYPhys,
-                    0
+                    0,
+                    true /* YES, measure all points */
                 ];
+                ptsIdx++;
             }
         }
 
+     // attach the dimensions at the end
+     points[ptsIdx]=[nrOfXDivides, nrOfYDivides, 0];
     }
 
     function updateBedScanGranularity(nrOfXDivides,nrOfYDivides) {
