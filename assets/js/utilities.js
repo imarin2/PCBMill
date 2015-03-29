@@ -4,6 +4,7 @@
 var object;
 var file_selected;
 var files_selected = [];
+var file_selected_index = 0;
 var files_manufacture_order = [];
 var files_side = [];
 var files_max_x = 0;
@@ -787,8 +788,27 @@ function check_wizard(){
     	
     	$('#btn-next').addClass('disabled');
     }
+
+    if(item.step == 4){
+	$("#wizard-buttons").hide();    	
+	$("#step4").html('');
+
+            $.ajax({
+                url: '/fabui/plugin/pcbmill/show/preparemanufacture.php',
+//              type: 'post',
+//              async : true,
+//              dataType : 'json',
+//              data: {_files_max_x: files_max_x, _files_max_y: files_max_y },
+                cache: false
+            })
+              .done(function( html ) {
+                $("#step4").html(html);
+		$('#manufacture_filename').html(files_selected[file_selected_index]);
+              });
+    }
     
-    if(item.step >= 4){
+
+    if(item.step > 4){
         
         $("#wizard-buttons").hide();
         

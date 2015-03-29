@@ -187,7 +187,8 @@
 							<div class="col-sm-5">
 								<h1></h1>
 								<h3 class="text-center">The bed is going to be probed.</h3>
-								<h3 class="text-center">Make sure the information is correct, select the granularity, and then press "Start Measurement".</h3>
+								<h3 class="text-center">Make sure the information is correct, select the granularity, and then press "Start".</h3>
+								<h3 class="text-center">When the probing is completed press "Next".</h3>
 							</div>
 						</div>
 					</div>
@@ -306,7 +307,7 @@
         }
 
       	if(actual_row == 5){
-       		initialize_probing();
+//       		initialize_probing();
        		return false;
        	}
 
@@ -494,6 +495,7 @@
 		//force execution of the step controlling loop
 		//$('#exec_button').click();
 		// initilize the probing window
+		$('#exec_button').hide();
 		$('#xysizes').html(files_max_x+" x "+files_max_y);
 		$('#zeropoint').html("("+x_zero+", "+y_zero+", "+z_zero+")");
 		$('#zerotouch').html("("+x_zero+", "+y_zero+", "+zt_zero+")");
@@ -880,6 +882,8 @@ $.fn.textWidth = function(text, font) {
 	    $('#SliderBedScanXGranularity').slider('enable');
             $('#SliderBedScanYGranularity').slider('enable');
             $('#exec_button').removeClass('disabled');
+	    $('#btn-next').show();
+	    $('#btn-next').removeClass('disabled');
         }
 
 
@@ -960,6 +964,8 @@ $.fn.textWidth = function(text, font) {
             lastTriggeredTimeStamp = "";
             updateMeasurementProgress(data);
 	    $('#exec_button').removeClass('disabled');
+	    $('#btn-next').show();
+	    $('#btn-next').removeClass('disabled');
             }
         });
 
