@@ -2,7 +2,7 @@
 	<div class="col-sm-6">
 		<h2 class="text-primary">Change tool and start manufacturing</h2>
                 <h5 class="text-left">The file that will be manufactured in this step is:</h5>
-                <h5 class="text-left"><div id="manufacture_filename"></div></h5>
+                <h5 class="text-left"><b><div id="manufacture_filename"></div></b></h5>
                 <h5 class="text-left">Please mount the right tool for the job before proceeding.</h5>
         </div>
 </div>
@@ -19,7 +19,7 @@
 
 <div class="row button-print-container margin-bottom-10">
         <div class="col-sm-12 text-center ">
-            <a id="exec_button" href="javascript:void(0);" class="btn btn-primary btn-lg">Click here if you are ready</a>
+            <a id="exec_man_button" href="javascript:void(0);" class="btn btn-primary btn-lg">Click here if you are ready</a>
         </div>
 </div>
 
@@ -27,7 +27,7 @@
 
     //$('#manufacture_filename').html(files_selected[file_selected_index]);
 
-    $('#exec_button').on('click', function(){
+    $('#exec_man_button').on('click', function(){
 
         var actual_row;
         var next_row;
@@ -41,16 +41,16 @@
             }
         });
 
-        if(action == "zeroandcorrect"){
-                //pre_print();
+        if( actual_row == 1){
+                tool_zero_and_level_gcode();
                 return false; 
         }
 
     });
 
-   function configure_zero(){
+   function tool_zero_and_level_gcode(){
         openWait('Zeroing and Leveling');
-        $('#exec_button').addClass('disabled');
+        $('#exec_man_button').addClass('disabled');
         $("#res-icon").removeClass('fa-warning fa-check txt-color-green txt-color-red fa-spinner fa-spin');
         $("#res-icon").addClass('fa-spinner fa-spin');
         $('#modal_link').addClass('disabled');
@@ -60,14 +60,21 @@
         ticker_url = '/temp/check_' + timestamp + '.trace';
 
         $.ajax({
-//                        url: ajax_endpoint + 'ajax/pre_print.php',
-                          url: '/fabui/application/plugins/pcbmill/ajax/configure_zero.php',
+                          url: '/fabui/application/plugins/pcbmill/ajax/zeroandlevel.php',
                           dataType : 'json',
                   type: "POST",
                           async: true,
-                  data : { file : file_selected.full_path, time:timestamp},
+                  data : { 
+			  file : file_selected.full_path, 
+			  time: timestamp,
+			  
+
+	                    pointsToMeasure: JSON.stringify(points)
+			  },
                           beforeSend: function( xhr ) {
-                          }
+                          },
+                dataType: "html"
+
                 }).done(function(response) {
 
                 var status = response.status;
@@ -87,14 +94,14 @@
                     });
 
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
-                    $("#exec_button").html('Start');
+                    $("#exec_man_button").html('Start');
                     $('.check_result').html('');
-                    $("#exec_button").attr('data-action', '');
+                    $("#exec_man_button").attr('data-action', '');
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);
-                    $("#exec_button").html('Oops.. try again');
-                    $("#exec_button").attr('data-action', 'configzero');
+                    $("#exec_man_button").html('Oops.. try again');
+                    $("#exec_man_button").attr('data-action', 'configzero');
                 }
 
                 ticker_url = '';
@@ -104,7 +111,7 @@
                 //force execution of the step controlling loop
                 //$('#exec_button').click();
                 // initilize the probing window
-                $('#exec_button').hide();
+                $('#exec_man_button').hide();
                 $('#xysizes').html(files_max_x+" x "+files_max_y);
                 $('#zeropoint').html("("+x_zero+", "+y_zero+", "+z_zero+")");
                 $('#zerotouch').html("("+x_zero+", "+y_zero+", "+zt_zero+")");

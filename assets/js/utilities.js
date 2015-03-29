@@ -237,15 +237,14 @@ function detail_files(object) {
                 
             $.ajax({
                 url: '/fabui/plugin/pcbmill/show/zeroingandprobing.php',
-//		type: 'post',
-//		async : true,
-//		dataType : 'json',
-//		data: {_files_max_x: files_max_x, _files_max_y: files_max_y },
                 cache: false
             })
               .done(function( html ) {
                 $("#step3").html(html);
               });
+
+/*		item.step=4;
+		check_wizard();*/
 	}
 
             
@@ -786,11 +785,14 @@ function check_wizard(){
     
     if(item.step == 3){
     	
-    	$('#btn-next').addClass('disabled');
+//    	$('#btn-next').addClass('disabled');
+    	$('#btn-next').removeClass('disabled');
+
+    	$("#wizard-buttons").show();
     }
 
     if(item.step == 4){
-	$("#wizard-buttons").hide();    	
+//	$("#wizard-buttons").hide();    	
 	$("#step4").html('');
 
             $.ajax({
@@ -803,7 +805,7 @@ function check_wizard(){
             })
               .done(function( html ) {
                 $("#step4").html(html);
-		$('#manufacture_filename').html(files_selected[file_selected_index]);
+		$('#manufacture_filename').html(files_selected[file_selected_index].file_name);
               });
     }
     
