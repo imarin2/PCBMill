@@ -585,6 +585,12 @@ $.fn.textWidth = function(text, font) {
 
             additionalProgressLabelText = "";
             buttonStartStop.text("Stop");
+	    $('#SliderBedScanXGranularity').addClass('ui-disabled');
+            $('#SliderBedScanYGranularity').addClass('ui-disabled');
+	    $('#SliderBedScanXGranularity').slider('disable');
+            $('#SliderBedScanYGranularity').slider('disable');
+
+
             var progressbar = $("#progressbar"),
                 progressLabel = $(".progress-label");
             progressbar.progressbar("value", 0);
@@ -632,8 +638,12 @@ $.fn.textWidth = function(text, font) {
                 console.log(data);
                 var buttonStartStop = $("#ButtonStartStop");
                 buttonStartStop.text("Start");
+		$('#exec_button').addClass('disabled');
+	        $('#SliderBedScanXGranularity').removeClass('ui-disabled');
+                $('#SliderBedScanYGranularity').removeClass('ui-disabled');
+	        $('#SliderBedScanXGranularity').slider('enable');
+                $('#SliderBedScanYGranularity').slider('enable');
                 closeWait();
-
             });
 
         }
@@ -692,7 +702,8 @@ $.fn.textWidth = function(text, font) {
                 currentProgress = parseFloat(currentProgress.toFixed(2));
 
                 /*var currentBedScanGranularity = measurementInformation['bedscanGranularity'];*/
-		currentBedScanGranularity = bedScanXGranularityNr;
+		currentBedScanXGranularity = bedScanXGranularityNr;
+		currentBedScanYGranularity = bedScanYGranularityNr;
 
                 var currentFeedrate = measurementInformation['feedrate'];
                 var currentProbesPerPoint = measurementInformation['probesPerPoint'];
@@ -767,9 +778,9 @@ $.fn.textWidth = function(text, font) {
                             /* Search ifx idx is on a corner point */
                             var idxCoords = coordinates.length;
                             if (i == 0) idxCoords = 0;
-                            if (i == currentBedScanGranularity + 1) idxCoords = 1;
-                            if (i == (currentBedScanGranularity + 2) * (currentBedScanGranularity + 1)) idxCoords = 2;
-                            if (i == (currentBedScanGranularity + 2) * (currentBedScanGranularity + 2) - 1) idxCoords = 3;
+                            if (i == currentBedScanXGranularity + 1) idxCoords = 1;
+                            if (i == (currentBedScanXGranularity + 2) * (currentBedScanYGranularity + 1)) idxCoords = 2;
+                            if (i == (currentBedScanXGranularity + 2) * (currentBedScanYGranularity + 2) - 1) idxCoords = 3;
 
                             if (idxCoords < coordinates.length) {
                                 meanXPos = coordinates[idxCoords][0];
@@ -864,6 +875,11 @@ $.fn.textWidth = function(text, font) {
         } else {
             var buttonStartStop = $("#ButtonStartStop");
             buttonStartStop.text("Start");
+	    $('#SliderBedScanXGranularity').removeClass('ui-disabled');
+            $('#SliderBedScanYGranularity').removeClass('ui-disabled');
+	    $('#SliderBedScanXGranularity').slider('enable');
+            $('#SliderBedScanYGranularity').slider('enable');
+            $('#exec_button').removeClass('disabled');
         }
 
 
@@ -918,6 +934,11 @@ $.fn.textWidth = function(text, font) {
             additionalProgressLabelText = "";
             var buttonStartStop = $("#ButtonStartStop");
             buttonStartStop.text("Stop");
+	    $('#exec_button').addClass('disabled');
+	    $('#SliderBedScanXGranularity').addClass('ui-disabled');
+            $('#SliderBedScanYGranularity').addClass('ui-disabled');
+	    $('#SliderBedScanXGranularity').slider('disable');
+            $('#SliderBedScanYGranularity').slider('disable');
             var progressbar = $("#progressbar"),
                 progressLabel = $(".progress-label");
             progressbar.show();
@@ -938,7 +959,7 @@ $.fn.textWidth = function(text, font) {
             if (data.trim().length>0) {
             lastTriggeredTimeStamp = "";
             updateMeasurementProgress(data);
-
+	    $('#exec_button').removeClass('disabled');
             }
         });
 
