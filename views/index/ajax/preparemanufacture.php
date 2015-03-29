@@ -67,9 +67,7 @@
                   data : { 
 			  file : file_selected.full_path, 
 			  time: timestamp,
-			  
-
-	                    pointsToMeasure: JSON.stringify(points)
+	                    pointsToMeasure: JSON.stringify(measuredpoints)
 			  },
                           beforeSend: function( xhr ) {
                           },

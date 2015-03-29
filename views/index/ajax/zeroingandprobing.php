@@ -879,7 +879,30 @@ $.fn.textWidth = function(text, font) {
             setTimeout(updateCalibProgress, 1000);
         } else {
 
-            measuredpoints = measurementValues; 
+   	    measuredpoints = new Array(measurementValues.length+1);
+	    var i = 0;
+	    for (; i < measurementValues.length; i++) {
+
+		var meanz = 0
+                var probenr = measurementValues[i][2].length;
+
+                for(var j = 0; j< probenr; j++) {
+                    meanz += parseFloat(measurementValues[i][2][j]); 
+                }
+
+		meanz /= probenr;
+
+		var temppoint = [
+		parseFloat(measurementValues[i][0]),
+            	parseFloat(measurementValues[i][1]),
+            	meanz,
+            	measurementValues[i][3]
+		];
+
+		measuredpoints[i]=temppoint;
+	    }
+
+            measuredpoints[i]==[ bedScanXGranularityNr, bedScanYGranularityNr, 0];
 
             var buttonStartStop = $("#ButtonStartStop");
             buttonStartStop.text("Start");
