@@ -25,6 +25,8 @@
 
 <script type="text/javascript">
 
+var leveled_file_path="";
+
     //$('#manufacture_filename').html(files_selected[file_selected_index]);
 
     $('#exec_man_button').on('click', function(){
@@ -41,7 +43,7 @@
             }
         });
 
-        if( actual_row == 1){
+        if( actual_row == 1 || action =='zeroandlevel'){
                 tool_zero_and_level_gcode();
                 return false; 
         }
@@ -65,9 +67,9 @@
                   type: "POST",
                           async: true,
                   data : { 
-			  file : file_selected.full_path, 
-			  time: timestamp,
-	                    pointsToMeasure: JSON.stringify(measuredpoints)
+			    file : file_selected.full_path, 
+			    time: timestamp,
+	                    measuredPoints: JSON.stringify(measuredpoints)
 			  },
                           beforeSend: function( xhr ) {
                           },
@@ -79,17 +81,12 @@
 
                 if(status == 200){
 
-                    var zerocoords = JSON.parse(response.zerocoords);
+                    leveled_file_path = response.leveled_file_path;
 
-                    x_zero = zerocoords.x;
-                    y_zero = zerocoords.y;
-                    z_zero = zerocoords.z;
-                    zt_zero = zerocoords.zt;
-
-                        $("#row_3").slideUp('slow', function(){});
+/*                        $("#row_3").slideUp('slow', function(){});
                         $("#row_4").slideUp('slow', function(){
                         $("#row_5").slideDown('slow');
-                    });
+                    });*/
 
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
                     $("#exec_man_button").html('Start');
@@ -99,21 +96,21 @@
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);
                     $("#exec_man_button").html('Oops.. try again');
-                    $("#exec_man_button").attr('data-action', 'configzero');
+                    $("#exec_man_button").attr('data-action', 'zeroandlevel');
                 }
 
                 ticker_url = '';
                 closeWait();
-                //$('#exec_button').removeClass('disabled');
+                $('#exec_man_button').removeClass('disabled');
                 //$('#exec_button').addClass('disabled');
                 //force execution of the step controlling loop
                 //$('#exec_button').click();
                 // initilize the probing window
-                $('#exec_man_button').hide();
-                $('#xysizes').html(files_max_x+" x "+files_max_y);
-                $('#zeropoint').html("("+x_zero+", "+y_zero+", "+z_zero+")");
-                $('#zerotouch').html("("+x_zero+", "+y_zero+", "+zt_zero+")");
-                initialize_probing();
+                //$('#exec_man_button').hide();
+                //$('#xysizes').html(files_max_x+" x "+files_max_y);
+                //$('#zeropoint').html("("+x_zero+", "+y_zero+", "+z_zero+")");
+                //$('#zerotouch').html("("+x_zero+", "+y_zero+", "+zt_zero+")");
+                //initialize_probing();
         });
 
     }
