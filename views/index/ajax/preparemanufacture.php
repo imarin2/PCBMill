@@ -77,11 +77,13 @@ var leveled_file_path="";
 
                 }).done(function(response) {
 
-                var status = response.status;
+
+		var status = JSON.parse(response)['status'];
+                //var status = response.status;
 
                 if(status == 200){
 
-                    leveled_file_path = response.leveled_file_path;
+                    leveled_file_path = JSON.parse(response)['leveled_file_path'];
 
 /*                        $("#row_3").slideUp('slow', function(){});
                         $("#row_4").slideUp('slow', function(){

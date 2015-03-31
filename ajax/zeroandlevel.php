@@ -69,10 +69,12 @@ sleep(2);
 
 /* $_response = json_decode(file_get_contents($_destination_response), TRUE); */
 
-$_response = file_get_contents($_destination_response);
+$_response = file($_destination_response);
 //$_response = trim(preg_replace('/\s+/', ' ', $_response));
 /*$_response = filenameofcorrectedfile*/
 //echo $_response;
+
+//file_put_contents('php://stderr', print_r($_response, TRUE));
 
 /** RESPONSE */
 //$_response_items['check_trace']        = $_destination_trace;
@@ -80,16 +82,16 @@ $_response = file_get_contents($_destination_response);
 $_response_items['command']            = $_command;
 //$_response_items['pid']                = $_pid;
 //$_response_items['url_check_response'] = host_name().'temp/response_'.$_time.'.log';
-$_response_items['response']           = str_replace(PHP_EOL, '', $_response[1]) == 'true' ? true : false;
+$_response_items['response']           = $_response[1];
 //$_response_items['real_response']      = $_response;
 
-$_response_items['trace']              = $_trace;
+//$_response_items['trace']              = $_trace;
 $_response_items['status']             = $_response_items['response']  == true ? 200 : 500;
 //$_response_items['status']             = 200;
 
 $_response_items['leveled_file_path']  = str_replace(PHP_EOL, '', $_response[0]);
 
-//file_put_contents('php://stderr', print_r($_response_items, TRUE));
+file_put_contents('php://stderr', print_r($_response_items, TRUE));
 
 
 //<span class="hidden-xs">[26/03/2015 15:35:04] -</span> Current coordinates : (115.0,91.0,35.52)

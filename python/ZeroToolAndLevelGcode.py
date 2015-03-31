@@ -5,6 +5,8 @@ from subprocess import call
 import numpy as np
 import json
 import pprint
+import CNC
+
 
 global retractProbe
 global feedrate
@@ -19,10 +21,11 @@ start_time = time.time()
 #Args
 try:
 	global probed_points
-	logfile=str(sys.argv[1]) #param for the log file
+	global bed_measured_points
+	log_file=str(sys.argv[1]) #param for the log file
 	log_trace=str(sys.argv[2])	#trace log file
 	points_file = str(sys.argv[3])  # points file
-
+	
 	initialProbeHeight = float(sys.argv[4])
 	if (initialProbeHeight<50):
 		initialProbeHeight = 50; #For Safety
@@ -31,8 +34,8 @@ try:
 
 	pointsFile = open(points_file, "r") 
 	bedPoints=pointsFile.read()
-	bed_measured_points = json.loads(bedPoints) #np.array(json.loads(bedPoints))
-	probed_points=bed_measured_points[:-1] #all but last, because the dimensions are in the last
+	bed_measurement_points = json.loads(bedPoints) #np.array(json.loads(bedPoints))
+	probed_points=bed_measurement_points[:-1] #all but last, because the dimensions are in the last
 	
 except:
 	print "Missing Log reference"
@@ -61,9 +64,9 @@ def trace(string):
 def response(string):
     
     global log_file
-    
-    out_file_trace = open(response_file,"a+")
-    out_file.write(str(string) + "\n")
+    #print log_file
+    out_file_trace = open(log_file,"a+")
+    out_file_trace.write(str(string) + "\n")
     out_file_trace.close()
     return
 	
@@ -164,10 +167,95 @@ while not data[:22]=="echo:endstops hit:  Z:":
 macro("G90","ok",2,"Abs_mode",1, verbose=False)
 
 trace("Leveling gcode file...\r\n")
+gcode = CNC.GCode();
+
+gcode.load(gcode_file)
+
+output_file='/var/www/fabui/application/plugins/pcbmill/python/temp/'+os.path.basename(gcode_file)
+#print output_file
+#points_file='probe.pts';
+#pointsFile = open(points_file, "r") 
+#bedPoints=pointsFile.read()
+#bed_measurement_points = json.loads(bedPoints) #np.array(json.loads(bedPoints))
+#probed_points=bed_measurement_points[:-1] #all but last, because the dimensions are in the last
+
+#calculate xmin, xmax, xn, ymin, ymax, yn, zmin, zmax
+xn=bed_measurement_points[-1][0]+1;
+yn=bed_measurement_points[-1][1]+1;
+xmin=0
+ymin=0
+zmin=0
+xmax=0
+ymax=0
+zmax=0
+feed=200
+
+xzero=bed_measurement_points[0][0];
+yzero=bed_measurement_points[0][1];
+zzero=bed_measurement_points[0][2];
+
+for (p,point) in enumerate(probed_points):
+        xt = point[0]-xzero;
+        yt = point[1]-yzero;
+        zt = point[2]-zzero;
+
+        if xt < xmin:
+                xmin = xt;
+        if yt < ymin:
+                ymin = yt;
+        if zt < zmin:
+                zmin = zt;
+        if xt > xmax:
+                xmax = xt;
+        if yt > ymax:
+                ymax = yt;
+        if zt > zmax:
+                zmax = zt;
+
+gcode.probe.xmin=xmin;
+gcode.probe.ymin=ymin;
+gcode.probe.zmin=zmin;
+gcode.probe.xmax=xmax;
+gcode.probe.ymax=ymax;
+gcode.probe.zmax=zmax;
+gcode.probe.xn=xn;
+gcode.probe.yn=yn;
+gcode.probe.feed=feed;
+
+gcode.probe.makeMatrix();
+gcode.probe.xstep();
+gcode.probe.ystep();
 
 
-response("true")
-response("correctedfile.gcode")
+# now the header is known; insert values
+for (p,point) in enumerate(probed_points):
+        gcode.probe.add(point[0]-xzero,point[1]-yzero,point[2]-zzero);
+
+#gcode.probe.setZero(0,0)
+
+#gcode.probe.save("bCNC_probe.txt")
+# Here the probe should be initialized
+
+#gcode.save("gcode_as_Read.gcode")
+
+
+lines,paths = gcode.prepare2Run(); # this autolevels the code
+
+out_file = open(output_file,"w")
+
+for line in lines:
+        if line is not None:
+                out_file.write(str(line) + "\n")
+                #self.queue.put(line+"\n")
+
+out_file.close()
+
+if (os.path.isfile(output_file)):
+	response(output_file)
+	response("true")
+else:
+	response("false")
+	response("false")
 
 trace("Done!")
 sys.exit()
