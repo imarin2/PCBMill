@@ -880,10 +880,10 @@ $.fn.textWidth = function(text, font) {
         } else {
 
    	    measuredpoints = new Array(measurementValues.length+1);
-	    var i = 0;
-	    for (; i < measurementValues.length; i++) {
+	    var idx = 0;
+	    for (var i=0; i < measurementValues.length; i++) {
 
-		var meanz = 0
+		var meanz = 0;
                 var probenr = measurementValues[i][2].length;
 
                 for(var j = 0; j< probenr; j++) {
@@ -899,10 +899,11 @@ $.fn.textWidth = function(text, font) {
             	measurementValues[i][3]
 		];
 
-		measuredpoints[i]=temppoint;
+		measuredpoints[idx]=temppoint;
+		idx++;
 	    }
 
-            measuredpoints[i]==[ bedScanXGranularityNr, bedScanYGranularityNr, 0];
+            measuredpoints[idx]=[ bedScanXGranularityNr+1, bedScanYGranularityNr+1, 0];
 
             var buttonStartStop = $("#ButtonStartStop");
             buttonStartStop.text("Start");
@@ -1100,7 +1101,7 @@ $.fn.textWidth = function(text, font) {
         }
 
      // attach the dimensions at the end
-     points[ptsIdx]=[nrOfXDivides, nrOfYDivides, 0];
+     points[ptsIdx]=[nrOfXDivides+1, nrOfYDivides+1, 0];
     }
 
     function updateBedScanGranularity(nrOfXDivides,nrOfYDivides) {
