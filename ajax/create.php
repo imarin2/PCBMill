@@ -13,7 +13,7 @@ $_print_type  = $_POST['print_type'];
 $_skip_abl    = $_POST['skip'] == 0 ? false : true;
 $_time        = $_POST['time'];
 $_calibration = $_POST['calibration'];
-
+$_file_full_path = $_POST['file_full_path'];
 
 /** IF PRINT IS ADDITIVE */
 if($_print_type ==  'additive'){
@@ -156,7 +156,7 @@ $_time_monitor = 2;
 //file_put_contents($_gcode_file, $gcode_data);
 
 /** START PROCESS */
-$_command        = 'sudo python '.PYTHON_PATH.'gpusher_fast.py '.$_file['full_path'].' '.$_monitor_file .' '.$_data_file.' '.$_time_monitor.' '.$_trace_file.' '.$id_task.' '.$_print_type.' 2>'.$_debug_file.' > /dev/null & echo $!';
+$_command        = 'sudo python '.PYTHON_PATH.'gpusher_fast.py '.$_file_full_path.' '.$_monitor_file .' '.$_data_file.' '.$_time_monitor.' '.$_trace_file.' '.$id_task.' '.$_print_type.' 2>'.$_debug_file.' > /dev/null & echo $!';
 $_output_command = shell_exec ( $_command );
 $_print_pid      = intval(trim(str_replace('\n', '', $_output_command))) + 1;
 

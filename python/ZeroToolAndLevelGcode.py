@@ -163,8 +163,14 @@ while not data[:22]=="echo:endstops hit:  Z:":
    pass
 
 # we do not actually care of the z touching value of this tool, we just want to set the zero.
-#macro("G92 X0 Y0 Z0","ok",2,"Abs_mode",1, verbose=False)
+#macro("G92 X0 Y0 Z0","ok",2,"Set Zero",1, verbose=False)
 macro("G90","ok",2,"Abs_mode",1, verbose=False)
+
+# this shall be removed to actually mill the PCB
+macro("G0 X"+str(x)+" Y"+str(y)+" Z"+str(zp)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+macro("G92 X0 Y0 Z0","ok",2,"Set Zero to current position",1, verbose=False)
+macro("G90","ok",2,"Abs_mode",1, verbose=False)
+
 
 trace("Leveling gcode file...\r\n")
 gcode = CNC.GCode();

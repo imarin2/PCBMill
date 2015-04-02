@@ -16,6 +16,10 @@
     </div>
 
 </div>
+<div id="row_3" class="row interstitial" style="display: none;">
+        <div class="col-sm-6">
+        </div>
+</div>
 
 <div class="row button-print-container margin-bottom-10">
         <div class="col-sm-12 text-center ">
@@ -43,10 +47,17 @@ var leveled_file_path="";
             }
         });
 
+	if(actual_row == 3 || action =='doprint'){
+	    $("#exec_man_button").attr('data-action', '');
+            print_object();
+            return false; 
+        }
+
         if( actual_row == 1 || action =='zeroandlevel'){
                 tool_zero_and_level_gcode();
                 return false; 
         }
+
 
     });
 
@@ -85,15 +96,15 @@ var leveled_file_path="";
 
                     leveled_file_path = JSON.parse(response)['leveled_file_path'];
 
-/*                        $("#row_3").slideUp('slow', function(){});
-                        $("#row_4").slideUp('slow', function(){
-                        $("#row_5").slideDown('slow');
-                    });*/
+                    $("#row_2").slideUp('slow', function(){
+                    	$("#row_3").slideDown('slow');
+                    });
 
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
-                    $("#exec_man_button").html('Start');
+                    $("#exec_man_button").html('Manufacture');
                     $('.check_result').html('');
-                    $("#exec_man_button").attr('data-action', '');
+                    $("#exec_man_button").attr('data-action', 'doprint');
+		    $("#exec_man_button").click();
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);

@@ -688,12 +688,12 @@ function print_object(){
 
 	$.ajax({
 		  //url: ajax_endpoint + '/do_print/' + object.object.id + '/' + file_selected.id,
-         url : ajax_endpoint + 'ajax/create.php',
+         url : '/fabui/application/plugins/pcbmill/ajax/create.php',
          // url: '/fabui/create/start',
 		  type: 'POST',
           dataType : 'json',
 		  async : true,
-          data: {object: object.object.id, file: file_selected.id, print_type: print_type, calibration:calibration, time: timestamp}
+          data: {object: object.object.id, file: file_selected.id, print_type: print_type, calibration:calibration, time: timestamp, file_full_path: files_selected[currently_manufacturing].full_path}
 	}).done(function(response) {
         //respons
         if(response.response == true){
@@ -851,10 +851,44 @@ function check_wizard(){
         
         $("#wizard-buttons").hide();
         
-       
-        
     }else{
         
+    }
+
+    if(item.step == 6){
+
+        $("#wizard-buttons").hide();
+
+	manufacturingstep++;
+
+	if(manufacturingstep < files_selected.length())
+	{
+
+	    // make it go to to step4
+    	    $('.wizard').wizard('selectedItem', {
+        	step: "#step4"
+      	    });
+
+
+	    $("#step4").html('');
+
+            $.ajax({
+                url: '/fabui/plugin/pcbmill/show/preparemanufacture.php',
+                cache: false 
+            })
+              .done(function( html ) {
+                $("#step4").html(html);
+
+                currently_manufacturing = files_manufacture_order.indexOf(manufacturingstep.toString());
+
+                $('#manufacture_filename').html(files_selected[currently_manufacturing].file_name);
+              });        
+
+	}
+	else {
+		// We have finished all selected files
+	}
+
     }
 
 }
