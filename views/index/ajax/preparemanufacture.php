@@ -67,7 +67,7 @@ var leveled_file_path="";
                   type: "POST",
                           async: true,
                   data : { 
-			    file : file_selected.full_path, 
+			    file : files_selected[currently_manufacturing].full_path, 
 			    time: timestamp,
 	                    measuredPoints: JSON.stringify(measuredpoints)
 			  },

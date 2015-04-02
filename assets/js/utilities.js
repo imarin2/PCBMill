@@ -6,6 +6,8 @@ var file_selected;
 var files_selected = [];
 var file_selected_index = 0;
 var files_manufacture_order = [];
+var currently_manufacturing = 1;
+var manufacturingstep = 1;
 var files_side = [];
 var files_max_x = 0;
 var files_max_y = 0;
@@ -836,7 +838,11 @@ function check_wizard(){
             })
               .done(function( html ) {
                 $("#step4").html(html);
-		$('#manufacture_filename').html(files_selected[file_selected_index].file_name);
+//		$('#manufacture_filename').html(files_selected[file_selected_index].file_name);
+		
+		currently_manufacturing = files_manufacture_order.indexOf(manufacturingstep.toString());
+		
+		$('#manufacture_filename').html(files_selected[currently_manufacturing].file_name);
               });
     }
     
