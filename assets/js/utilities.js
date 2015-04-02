@@ -72,7 +72,7 @@ function detail_files(object) {
 		html += '<th>File</th>';
 		html += '<th class="hidden-xs">Type</th>';
 		html += '<th>Manufacture Order</th>';
-		html += '<th>PCB Side</th>';
+		html += '<th>Manufacture Side</th>';
 		html += '</tr>';
 		html += '</thead>';
 
@@ -110,14 +110,13 @@ function detail_files(object) {
 		  		  
 		  html += '<td><input id="'
 				+ file.id
-				+'" name="manufacture-order" class="input-xlarge" type="number" min="0"></td>';
+				+'" name="manufacture-order" class="input-xlarge" type="number" min="1" disabled></td>';
 
 		  html += '<td><select class="form-control" id="'
 				  + file.id
-				  + '" name="manufacture-face">'
+				  + '" name="manufacture-face" disabled>'
 				  + '<option value="0">Top face</option>'
 				  + '<option value="1">Bottom face</option>'
-				  + '<option value="2">Drills(always top)</option>'				  
 				  '</select></td>';				  
 
 		  html += '</tr>';
@@ -136,10 +135,26 @@ function detail_files(object) {
         
         
          $('.file-row').click(function () {
-            
+//         $('.checkbox').click(function () {
+
+	    var clickedId = $(this).find(':first-child').find('input').val()            
+
             if( $(this).find(':first-child').find('input').prop("checked") == true ) {
             	$(this).find(':first-child').find('input').prop("checked", false);
 		$(this).removeClass('success');
+		
+		var manufindex=$('input[name="manufacture-order"][id='+clickedId+']').val();
+
+		$('input[name="manufacture-order"][id='+clickedId+']').val("");
+		$('input[name="manufacture-order"][id='+clickedId+']').attr('disabled',true);
+
+		// now recalculate other values
+		$('input[name="manufacture-order"]:not(:disabled)').each(function() {
+            		if(this.value > manufindex ) {
+				this.value=(this.value-1);
+            		}
+        	});
+
 
 		if($('input[type=checkbox]:checked').length == 0){
 			$(".files-table tbody tr").removeClass('success');
@@ -147,6 +162,22 @@ function detail_files(object) {
     		}
 		return;
 	    }
+
+	    $('input[name="manufacture-order"][id='+clickedId+']').removeAttr('disabled');
+
+		var manufvalues = $('input[name="manufacture-order"]:not(:disabled)').filter(function() {
+    				return $(this).val() != $(this).attr('title');
+			}).map(function(){
+    				return $(this).val();
+			}).get();
+
+		var manufindex = 0;
+
+		if ( manufvalues.length != 0 ) {
+			manufindex = Math.max.apply(Math, manufvalues);
+		}
+
+	    $('input[name="manufacture-order"][id='+clickedId+']').val(manufindex+1);
 	    
 	    /** This seems wrong, it is not the first child, but the one having the lowest manufacturing order **/
             $(this).find(':first-child').find('input').prop("checked", true);
@@ -154,7 +185,7 @@ function detail_files(object) {
             /*$(".files-table tbody tr").removeClass('success');*/
             $(this).addClass('success');
             
-            select_file($(this).find(':first-child').find('input').val());
+            select_file(clickedId);
             
             
             /** LOAD INTERSTITIAL */
