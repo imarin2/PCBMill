@@ -463,7 +463,7 @@ elif preset=="external_endstop_coords":
     trace("Acquiring zero point",log_trace)
 
     macro("G91","ok",2,"Abs_mode",1, verbose=False)
-    macro("G0 X20 Y-50 F1000","ok",3,"Moving the right ",1,verbose=False )
+    macro("G0 X-55 Y-15 F1000","ok",3,"Moving the right ",1,verbose=False )
     macro("G90","ok",2,"Abs_mode",1, verbose=False)
 
     #get current X,Y,Z position (this is the user position)

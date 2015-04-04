@@ -693,7 +693,7 @@ function print_object(){
 		  type: 'POST',
           dataType : 'json',
 		  async : true,
-          data: {object: object.object.id, file: file_selected.id, print_type: print_type, calibration:calibration, time: timestamp, file_full_path: files_selected[currently_manufacturing].full_path}
+          data: {object: object.object.id, file: file_selected.id, print_type: print_type, calibration:calibration, time: timestamp, file_full_path: leveled_file_path}
 	}).done(function(response) {
         //respons
         if(response.response == true){
