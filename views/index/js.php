@@ -679,8 +679,9 @@ function finalize_print(){
         $('.estimated-time-left').html('-');
         /** GO TO NEXT STEP */
         $("#btn-next").trigger('click');
-        unfreeze_menu();
-        $("#wizard-buttons").hide();
+	check_wizard();
+        /*unfreeze_menu();
+        $("#wizard-buttons").hide();*/
 
 
 }

@@ -238,6 +238,18 @@ elif preset=="end_print_subtractive":
     macro("M107","ok",50,"Turning Fan off",1,verbose=False) #should be moved to firmware
     macro("M18","ok",10,"Motor Off",1,verbose=False) #should be moved to firmware
     trace("Completed",log_trace)
+
+elif preset=="end_file_of_batch_subtractive":
+    serial.flush()
+    trace("Terminating...",log_trace)
+    macro("G90","ok",2,"Setting absolute position",0,verbose=False)
+    macro("G0 X0 Y0 Z90 F1500","ok",3,"Moving to zero position",1)
+    macro("M5","ok",100,"Shutting Down Milling Motor",1,verbose=False) #should be moved to firmware    
+    macro("M220 S100","ok",50,"Reset Speed factor override",0.1,verbose=False)
+    macro("M221 S100","ok",1,"Reset Extruder factor override",0.1,verbose=False)
+    macro("M107","ok",50,"Turning Fan off",1,verbose=False) #should be moved to firmware
+    macro("M18","ok",10,"Motor Off",1,verbose=False) #should be moved to firmware
+    trace("Completed",log_trace)
     
 elif preset=="end_print_additive":
     serial.flush()
