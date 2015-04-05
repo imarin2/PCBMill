@@ -110,27 +110,34 @@ class Pcbmill extends Plugin {
 	  $data_step4 = array();
 
 
-	  /**
-	    * IMPOSTAZIONI STEP5
-	  */
-	  $data_widget_step5['_progress_percent'] = $_running ? number_format($_monitor_encoded->print->stats->percent, 2, ',', ' '): '0';
-	  $data_widget_step5['_lines']            = $_running ? $_monitor_encoded->print->lines : '-';
-	  $data_widget_step5['_current_line']     = $_running ? $_monitor_encoded->print->stats->line_number : '-';
-	  $data_widget_step5['_position']         = $_running ? $_monitor_encoded->print->stats->position : '-';
-	  $data_widget_step5['_temperature']      = $_running ? $_monitor_encoded->print->stats->extruder : 0;
-	  $data_widget_step5['_temperature_target']  = $_running ? $_monitor_encoded->print->stats->extruder_target : '-';
-	  $data_widget_step5['_bed_temperature']  = $_running ? $_monitor_encoded->print->stats->bed : 0;
-	  $data_widget_step5['_bed_temperature_target']  = $_running ? $_monitor_encoded->print->stats->bed_target : '-';
-	  $data_widget_step5['_pid']              = $_running ? $_attributes['pid'] : 0;
-	  $data_widget_step5['_velocity']         = $_running && isset($_attributes['speed']) ? $_attributes['speed'] : 100;
-	  $data_widget_step5['_rpm']               = $_running && isset($_attributes['rpm']) ? $_attributes['rpm'] : 6000;
-	  $data_widget_step5['_running']          = $_running;
-	  $data_widget_step5['_file_type']        = $_running ? trim($_file->print_type)  : 'additive'; 
-	  $data_widget_step5['mail']                 = $_running && isset($_attributes['mail']) ? $_attributes['mail'] : 0;
+                /**
+                 * IMPOSTAZIONI STEP5
+                */
 
-	  $data_step5['_tab5_monitor_widget'] = $this->load->view('index/step5/widget', $data_widget_step5, TRUE);
-	  $data_step5['_running']             = $_running;
-	  $data_step5['mail']                 = $_running && isset($_attributes['mail']) ? $_attributes['mail'] : 0;
+
+
+                $data_widget_step5['_progress_percent'] = $_running ? number_format($_monitor_encoded->print->stats->percent, 2, ',', ' '): '0';
+                $data_widget_step5['_lines']            = $_running ? $_monitor_encoded->print->lines : '-';
+                $data_widget_step5['_current_line']     = $_running ? $_monitor_encoded->print->stats->line_number : '-';
+                $data_widget_step5['_position']         = $_running ? $_monitor_encoded->print->stats->position : '-';
+                $data_widget_step5['_temperature']      = $_running ? $_monitor_encoded->print->stats->extruder : 0;
+                $data_widget_step5['_temperature_target']  = $_running ? $_monitor_encoded->print->stats->extruder_target : '-';
+        $data_widget_step5['_bed_temperature']     = $_running ? $_monitor_encoded->print->stats->bed : 0;
+                $data_widget_step5['_bed_temperature_target']  = $_running ? $_monitor_encoded->print->stats->bed_target : '-';
+                $data_widget_step5['_pid']              = $_running ? $_attributes['pid'] : 0;
+                $data_widget_step5['_velocity']         = $_running && isset($_attributes['speed']) ? $_attributes['speed'] : 100;
+                $data_widget_step5['_rpm']               = $_running && isset($_attributes['rpm']) ? $_attributes['rpm'] : 6000;
+                $data_widget_step5['_running']          = $_running;
+                $data_widget_step5['_file_type']        = $_running ? trim($_file->print_type)  : 'additive'; 
+                $data_widget_step5['mail']              = $_running && isset($_attributes['mail']) ? $_attributes['mail'] : 0;
+                $data_widget_step5['layer_total']       = $_running ? intval($_monitor_encoded->print->stats->layers->total) : 0;
+                $data_widget_step5['layer_actual']      = $_running ? intval($_monitor_encoded->print->stats->layers->actual) : 0;
+                $data_widget_step5['flow_rate']         = $_running && isset($_attributes['flow_rate']) ? $_attributes['flow_rate'] : 100;
+                $data_widget_step5['fan']               = $_running && isset($_attributes['fan']) ? $_attributes['fan'] : 0;
+
+                $data_step5['_tab5_monitor_widget'] = $this->load->view('index/step5/widget', $data_widget_step5, TRUE);
+        $data_step5['_running']             = $_running;
+                $data_step5['mail']                 = $_running && isset($_attributes['mail']) ? $_attributes['mail'] : 0;
 
 	  /**
 	  * 
@@ -161,6 +168,17 @@ class Pcbmill extends Plugin {
 	  $data_js['_uri_monitor']      = $_running ? $_attributes['uri_monitor'] : '' ;
 	  $data_js['_uri_trace']        = $_running ? $_attributes['uri_trace'] : '' ;
 	  $data_js['_seconds']          = $_running ? (time() - intval($_monitor_encoded->print->started)) : 0;
+
+          $data_js['_print_type']       = $_running ? $_attributes['print_type'] : '' ;
+          $data_js['progress_percent']  = $data_widget_step5['_progress_percent'] ;
+          $data_js['print_started']     = $_running ? strtolower($_monitor_encoded->print->print_started) : 'false';
+
+          $data_js['layer_total']       = $data_widget_step5['layer_total'];
+          $data_js['layer_actual']      = $data_widget_step5['layer_actual'];
+          $data_js['flow_rate']         = $data_widget_step5['flow_rate'];
+          $data_js['fan']               = $data_widget_step5['fan'];
+
+
 	  $data_js['_estimated_time']   = $_running && is_array($_stats) ? 'FixedQueue(10, ['.implode(',', $_stats['estimated_time']).'])' : 'FixedQueue(10, [])';
 	  $data_js['_progress_steps']   = $_running && is_array($_stats) ? 'FixedQueue(10, ['.implode(',', $_stats['progress_steps']).'])' : 'FixedQueue(10, [])';		
 	  $data_js['ext_temp']          = $_running ? $_monitor_encoded->print->stats->extruder : 0;
@@ -192,18 +210,37 @@ class Pcbmill extends Plugin {
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/datatables/dataTables.tableTools.min.js', 'comment'=>''));
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/datatables/dataTables.bootstrap.min.js', 'comment'=>''));
 	  
-	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider/jquery.nouislider.min.js', 'comment' => 'javascript for the noUISlider'));
-	  $this->layout->add_css_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider/jquery.nouislider.css', 'comment' => 'javascript for the noUISlider'));		
+/*	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider/jquery.nouislider.min.js', 'comment' => 'javascript for the noUISlider'));
+	  $this->layout->add_css_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider/jquery.nouislider.css', 'comment' => 'javascript for the noUISlider'));		*/
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider.7.0.10/jquery.nouislider.all.min.js', 'comment' => 'javascript for the noUISlider'));
+          $this->layout->add_css_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider.7.0.10/jquery.nouislider.min.css', 'comment' => 'javascript for the noUISlider'));
+          $this->layout->add_css_file(array('src'=>'application/layout/assets/js/plugin/noUiSlider.7.0.10/jquery.nouislider.pips.min.css', 'comment' => 'javascript for the noUISlider'));
+
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js', 'comment' => ''));	
 	  $this->layout->add_js_file(array('src'=>'application/layout/assets/js/fixed_queue.js', 'comment' => ''));
+
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/knob/jquery.knob.min.js', 'comment'=>'KNOB'));
+
 	  $this->layout->add_js_file(array('src'=> 'application/layout/assets/js/plugin/ace/src-min/ace.js', 'comment' => 'ACE EDITOR JAVASCRIPT'));
 		  
 	  $this->layout->add_js_file(array('src'=>'application/plugins/pcbmill/assets/js/utilities.js', 'comment'=>'create utilities')); 
 	  $this->layout->add_css_file(array('src'=>'application/plugins/pcbmill/views/index/index.css', 'comment'=>''));
 
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.cust.min.js', 'comment'=>'create utilities'));
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.resize.min.js', 'comment'=>'create utilities'));
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.fillbetween.min.js', 'comment'=>'create utilities'));
+
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.orderBar.min.js', 'comment'=>'create utilities'));
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.pie.min.js', 'comment'=>'create utilities'));
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.time.min.js', 'comment'=>'create utilities'));
+
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.tooltip.min.js', 'comment'=>'create utilities'));
+          $this->layout->add_js_file(array('src'=>'application/layout/assets/js/plugin/flot/jquery.flot.axislabels.js', 'comment'=>'create utilities'));
+
 	  $js_in_page  = $this->load->view('index/js', $data_js, TRUE);
 	  
 	  $this->layout->add_js_in_page(array('data'=> $js_in_page, 'comment' => 'create module'));
+          $this->layout->set_compress(false);
 	  $this->layout->view('index/index', $data);
 
 	}
