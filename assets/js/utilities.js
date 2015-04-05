@@ -803,7 +803,7 @@ function check_wizard(){
 
 	manufacturingstep++;
 
-	if(manufacturingstep < files_selected.length)
+	if(manufacturingstep <= files_selected.length)
 	{
 
 	    // make it go to to step4
