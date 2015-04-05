@@ -8,6 +8,7 @@ var file_selected_index = 0;
 var files_manufacture_order = [];
 var currently_manufacturing = 1;
 var manufacturingstep = 1;
+var is_zeroed = false;
 var files_side = [];
 var files_max_x = 0;
 var files_max_y = 0;
@@ -802,13 +803,11 @@ function check_wizard(){
 
 	manufacturingstep++;
 
-	if(manufacturingstep < files_selected.length())
+	if(manufacturingstep < files_selected.length)
 	{
 
 	    // make it go to to step4
-    	    $('.wizard').wizard('selectedItem', {
-        	step: "#step4"
-      	    });
+    	    $('.wizard').wizard('selectedItem', { step: 4 });
 
 
 	    $("#step4").html('');

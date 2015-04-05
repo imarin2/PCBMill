@@ -32,6 +32,8 @@ try:
 	
 	gcode_file = str(sys.argv[5]);
 
+	dozero = str(sys.argv[6]); # 0 = do not Zero, 1 = do Zero
+
 	pointsFile = open(points_file, "r") 
 	bedPoints=pointsFile.read()
 	bed_measurement_points = json.loads(bedPoints) #np.array(json.loads(bedPoints))
@@ -135,16 +137,19 @@ macro("G90","ok",2,"Abs_mode",1, verbose=False)
 
 z_safety= 5; # 5 mm of clearance with PCB
 
-zeropoint=probed_points[0];
-
-zp=zeropoint[2]+z_safety
-x=zeropoint[0]
-y=zeropoint[1]
-
 trace("Zeroing this tool\r\n")
+zeropoint=probed_points[0];
+zp=zeropoint[2]+z_safety
 
-macro("G0 X"+str(x)+" Y"+str(y)+" Z"+str(zp)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+macro("G90","ok",2,"Abs_mode",1, verbose=False)
 
+if dozero == 1:
+	x=zeropoint[0]
+	y=zeropoint[1]
+	# Go to zero position
+	macro("G0 X"+str(x)+" Y"+str(y)+" Z"+str(zp)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+	macro("G92 X0 Y0","ok",2,"Setting Local coordinate system",1, verbose=True)
+	
 # probe with the new tool to set zero
 serial.flushInput()
 serial.write("G38\r\n")
@@ -163,14 +168,7 @@ while not data[:22]=="echo:endstops hit:  Z:":
    pass
 
 # we do not actually care of the z touching value of this tool, we just want to set the zero.
-#macro("G92 X0 Y0 Z0","ok",2,"Set Zero",1, verbose=False)
-macro("G90","ok",2,"Abs_mode",1, verbose=False)
-
-# this shall be removed to actually mill the PCB
-macro("G0 X"+str(x)+" Y"+str(y)+" Z"+str(zp)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
-macro("G92 X0 Y0 Z0","ok",2,"Set Zero to current position",1, verbose=False)
-macro("G90","ok",2,"Abs_mode",1, verbose=False)
-
+macro("G92 X0 Y0 Z0","ok",2,"Set Zero",1, verbose=False)
 
 trace("Leveling gcode file...\r\n")
 gcode = CNC.GCode();

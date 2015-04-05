@@ -471,6 +471,11 @@ elif preset=="probe_setup_calibrate":
     trace("Probe calibrated : "+str(z_probe_new)+" mm",log_trace)
     macro("M300","ok",5,"Done!")
 
+elif preset=="set_zero":
+    trace("setting_zero",log_trace)
+    macro("G92 X0 Y0 Z0","ok",5,"Setting Zero",1, verbose=True)
+
+
 elif preset=="external_endstop_coords":
     trace("Acquiring zero point",log_trace)
 

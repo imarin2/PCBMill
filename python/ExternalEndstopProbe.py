@@ -274,8 +274,10 @@ for (p,point) in enumerate(probed_points):
 
 	macro("G0 Z"+str(zp)+" F5000","ok",2,"Rising Bed",0.5, warning=True, verbose=False)
 	
-#now we have all the points, we move to the tool changing position
-macro("G0 X100 Y100 Z90 F10000","ok",2,"Idle Position",0.5, warning=True, verbose=False)
+#now we have all the points, we move to the tool changing position that is X0 Y0 Z90
+x=probed_points[0][0];
+y=probed_points[0][1];
+macro("G0 X"+str(x)+" Y"+str(y)+" Z90 F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
 
 macro("M18","ok",2,"Motors off",0.5, warning=True, verbose=False)
 

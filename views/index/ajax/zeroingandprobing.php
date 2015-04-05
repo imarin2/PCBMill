@@ -45,7 +45,7 @@
 							</div>
 							<div class="col-sm-5">
 								<h1></h1>
-								<h3 class="text-center">Make sure that the tool (e.g.endmill) is mounted in the head. Jog the tool to the desired origin point (X=0, Y=0) and press the concentric circles button to set the zero.</h3>
+								<h3 class="text-center">Make sure that the tool (e.g.endmill) is mounted in the head. Jog the tool to the desired origin point (X=0, Y=0)</h3>
 								<h3 class="text-center">Note that Z=0 will be calculated via electric conductivity between the tool and the workpiece (e.g. copper clad).</h3>
 								<h3 class="text-center">Please connect the external endstop to the copper clad (PCB).</h3>
 								<h3 class="text-center">Then press "Start"</h3>
@@ -109,7 +109,7 @@
 										</i>
 									</a>
 									<a href="javascript:void(0)" id="zero-all"  class="btn btn-default btn-lg btn-circle btn-xl rotondo">
-										<i class="fa fa-bullseye">
+										<i class="fa fa-fw">
 										</i>
 									</a>
 									<a href="javascript:void(0)" data-attribue-direction="down" data-attribute-keyboard="98" class="btn btn-default btn-lg directions btn-circle btn-xl rotondo">
@@ -519,7 +519,7 @@
     }
     
     function zero_all(){
-    	make_call("zero_all_pre_mill", true);
+    	//make_call("zero_all_pre_mill", true);
     }
     
     

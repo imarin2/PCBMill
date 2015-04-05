@@ -80,7 +80,8 @@ var leveled_file_path="";
                   data : { 
 			    file : files_selected[currently_manufacturing].full_path, 
 			    time: timestamp,
-	                    measuredPoints: JSON.stringify(measuredpoints)
+	                    measuredPoints: JSON.stringify(measuredpoints),
+			    dozero: is_zeroed?0:1 // if not yet zeroed to localsystem, do it now
 			  },
                           beforeSend: function( xhr ) {
                           },
