@@ -142,6 +142,7 @@ zeropoint=probed_points[0];
 zp=zeropoint[2]+z_safety
 
 macro("G90","ok",2,"Abs_mode",1, verbose=False)
+macro("M746 S1","ok",2,"Enabling external probe",1, verbose=False)
 
 if dozero == 1:
 	x=zeropoint[0]
@@ -152,14 +153,14 @@ if dozero == 1:
 	
 # probe with the new tool to set zero
 serial.flushInput()
-serial.write("G38\r\n")
+serial.write("G38 S100\r\n")
 probe_start_time = time.time()
 
 data=""
 
 while not data[:22]=="echo:endstops hit:  Z:":
    data=serial.readline().rstrip() 
-   if (time.time() - probe_start_time>90):  #timeout management
+   if (time.time() - probe_start_time>240):  #timeout management
    	trace("Touch probing failed")
         response("false")
         response("false")
@@ -169,6 +170,7 @@ while not data[:22]=="echo:endstops hit:  Z:":
 
 # we do not actually care of the z touching value of this tool, we just want to set the zero.
 macro("G92 X0 Y0 Z0","ok",2,"Set Zero",1, verbose=False)
+macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)
 
 trace("Leveling gcode file...\r\n")
 gcode = CNC.GCode();

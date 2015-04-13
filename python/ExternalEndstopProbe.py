@@ -205,7 +205,8 @@ baud = 115200
 serial = serial.Serial(port, baud, timeout=0.6)
 serial.flushInput()
 
-macro("M402","ok",2,"Retracting Probe (safety)",1, verbose=False)	
+macro("M402","ok",2,"Retracting Probe (safety)",1, verbose=False)
+macro("M746 S1","ok",2,"Enabling external probe",1, verbose=False)	
 
 nrPointsToMeasure = 0
 pointsMeasured = 0
@@ -238,13 +239,13 @@ for (p,point) in enumerate(probed_points):
 		
 			serial.flushInput()
 			#G38	
-			serial.write("G38\r\n")
+			serial.write("G38 S100\r\n")
 			#time.sleep(0.5)			#give it some to to start	
 			probe_start_time = time.time()
 			while not serial_reply[:22]=="echo:endstops hit:  Z:":
 				serial_reply=serial.readline().rstrip()	
 				#issue G38 and waits reply.
-				if (time.time() - probe_start_time>80):	#timeout management
+				if (time.time() - probe_start_time>240):	#timeout management
 					trace("Probe failed on this point")
 					probes-=1 #failed, update counter
 					point[2][i]("N/A")
@@ -280,6 +281,7 @@ y=probed_points[0][1];
 macro("G0 X"+str(x)+" Y"+str(y)+" Z90 F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
 
 macro("M18","ok",2,"Motors off",0.5, warning=True, verbose=False)
+macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)
 
 #offset from the first calibration screw (lower left)
 #probed_points=np.add(np.array(probed_points,screw_offset))

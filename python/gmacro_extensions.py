@@ -482,6 +482,7 @@ elif preset=="external_endstop_coords":
     macro("G91","ok",2,"Abs_mode",1, verbose=False)
     macro("G0 X-55 Y-15 F1000","ok",3,"Moving the right ",1,verbose=False )
     macro("G90","ok",2,"Abs_mode",1, verbose=False)
+    macro("M746 S1","ok",2,"Enabling external probe",1, verbose=False)
 
     #get current X,Y,Z position (this is the user position)
     serial.flushInput()
@@ -495,12 +496,12 @@ elif preset=="external_endstop_coords":
 
     #get current X,Y,Z position (this is the user position)
     serial.flushInput()
-    serial.write("G38\r\n")
+    serial.write("G38 S100\r\n")
     probe_start_time = time.time()
     while not data[:22]=="echo:endstops hit:  Z:":
     	data=serial.readline().rstrip() 
-        #issue G30 Xnn Ynn and waits reply.
-        if (time.time() - probe_start_time>90):  #timeout management
+        #issue G38 Xnn Ynn and waits reply.
+        if (time.time() - probe_start_time>240):  #timeout management
         	trace("Touch probing failed",log_trace)
 		s_error += 1;
                 break   
@@ -514,8 +515,7 @@ elif preset=="external_endstop_coords":
 
     macro("G90","ok",2,"Abs_mode",1, verbose=False)
     macro("G0 Z90 F1000","ok",3,"Moving the plane ",1,verbose=False )
-#    macro("G28","ok",90,"homing all axis",verbose=False)
-
+    macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)
 
 if s_error>0:
     response("false")
