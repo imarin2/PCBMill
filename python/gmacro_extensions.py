@@ -479,8 +479,8 @@ elif preset=="set_zero":
 elif preset=="external_endstop_coords":
     trace("Acquiring zero point",log_trace)
 
-    macro("G91","ok",2,"Abs_mode",1, verbose=False)
-    macro("G0 X-55 Y-15 F1000","ok",3,"Moving the right ",1,verbose=False )
+    #macro("G91","ok",2,"Abs_mode",1, verbose=False)
+    #macro("G0 X-55 Y-15 F1000","ok",3,"Moving the right ",1,verbose=False )
     macro("G90","ok",2,"Abs_mode",1, verbose=False)
     macro("M746 S1","ok",2,"Enabling external probe",1, verbose=False)
 
