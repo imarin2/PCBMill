@@ -1,0 +1,23 @@
+{
+"LeftStickY": {"type": ["joystick"], "modify": false, "function": "notUsed", "param": ""},
+"LeftStickX": {"type": ["joystick"], "modify": false, "function": "notUsed", "param": ""},
+"RightStickY": {"type": ["joystick"], "modify": false, "function": "notUsed", "param": ""}, 
+"RightStickX": {"type": ["joystick"], "modify": true, "function": "notUsed", "param": ""},
+"ButtonL1": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonL2": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""},  
+"ButtonLeftJoy": {"type": ["discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonRight": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""},  
+"ButtonPs": {"type": ["discrete"], "modify": true, "function": "reset", "param": ""}, 
+"ButtonR2": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonR1": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonRightJoy": {"type": ["discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonDown": {"type": ["analog", "discrete"], "modify": true, "function": "decFeedRate", "param": "5"}, 
+"ButtonUp": {"type": ["analog", "discrete"], "modify": true, "function": "incFeedRate", "param": "5"}, 
+"ButtonLeft": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonCross": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonStart": {"type": ["discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonCircle": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonSelect": {"type": ["discrete"], "modify": true, "function": "zProbe", "param": ""}, 
+"ButtonSquare": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}, 
+"ButtonTriangle": {"type": ["analog", "discrete"], "modify": true, "function": "notUsed", "param": ""}
+}

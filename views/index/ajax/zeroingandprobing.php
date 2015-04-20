@@ -60,6 +60,13 @@
 								<div class="smart-form" style="background: none; margin-top: -30px">
 									<fieldset style="background: none;">
 										<div class="row">
+						                                	<ul class="list-button pull-right">
+                                                						<li>
+						                                                        <a id="act-joy" href="javascript:void(0);" class="btn btn-info btn-xs" title="Activate Joystick Control">Activate joystick</a>
+                                                						</li>
+                                        						</ul>
+										</div>
+										<div class="row">
 											<section class="col col-4">
 												<label class="label text-center">Step (mm)</label>
 												<label class="input-sx">
@@ -242,6 +249,9 @@
 
 <script type="text/javascript">
 
+        var disableInputs = false;
+        var joyActive = false;
+
 	$("#velocity-slider-container").removeClass('col-md-4 col-lg-4').addClass('col-md-6 col-lg-6');
 	$("#ext-slider-container").hide();
 	$("#bed-slider-container").hide();
@@ -272,6 +282,9 @@
 				numberFormat : "n",
 				min: 0
 		});	
+
+
+    $("#act-joy").on('click', act_joy);
 
     $('#exec_button').on('click', function(){
         
@@ -521,7 +534,32 @@
     function zero_all(){
     	//make_call("zero_all_pre_mill", true);
     }
-    
+
+    function act_joy() {
+        $("#act-joy").text("Joystick Control Activated");
+        $(".btn").addClass('disabled'); 
+
+        disableInputs = true;
+        var now = jQuery.now();
+        ticker_url = '/temp/joystickjog_console';
+	joyActive = true;
+
+        $.ajax({
+                type: "POST",
+                url: "/fabui/application/plugins/pcbmill/ajax/startjog.php",
+                data: {
+                    time: now
+                },
+                dataType: "html"
+            }).done(function(data) {
+                $("#act-joy").text("Activate joystick");
+                $(".btn").removeClass('disabled');
+                disableInputs = false;
+                joyActive = false;
+                ticker_url = '';
+            });
+    }
+
     
     function make_call(func, value){
     	
