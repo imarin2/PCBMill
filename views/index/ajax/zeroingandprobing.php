@@ -66,28 +66,23 @@
                                                 						</li>
                                         						</ul>
 										</div>
+									</fieldset>
+
+									<fieldset style="background: none;">
 										<div class="row">
 											<section class="col col-4">
-												<label class="label text-center">Step (mm)</label>
-												<label class="input-sx">
-													<input class="text-center" type="text" id="step" value="10">
-												</label>
+												<label for="XCoordinate" class="inline-label">X: </label>
+												<input name="XCoordinate" class="text-center" type="text" id="XCoordinate" value="0">
 											</section>
 											<section class="col col-4">
-												<label class="label text-center">Feedrate</label>
-												<label class="input-sx">
-													<input class="text-center" type="text" id="feedrate" value="1000">
-												</label>
+												<label for="YCoordinate" class="inline-label">Y: </label>
+												<input name="YCoordinate" class="text-center" type="text" id="YCoordinate" value="0">
 											</section>
 											<section class="col col-4">
-												<label class="label text-center">Z Step (mm)</label>
-												<label class="input-sx"> 
-													<input class="text-center" type="text" id="z-step" value="5">
-												</label>
+					                                                        <a id="goto_coords" href="javascript:void(0);" class="btn btn-info btn-xs" title="Go to coordinates">Go to Coordinates</a>
 											</section>
-											
 										</div>
-			
+
 									</fieldset>
 								</div>
 							</div>
@@ -95,6 +90,7 @@
 			            
 			            <div class="row">
 							<div class="col-sm-12">
+							<fieldset style="background: none;">
 						
 								<div class="btn-group-vertical">
 									<a href="javascript:void(0)" data-attribue-direction="up-left" data-attribute-keyboard="103" class="btn btn-default btn-lg directions btn-circle btn-xl rotondo">
@@ -140,19 +136,23 @@
 								</div>
 			                    
 			                    
-			                    <div class="btn-group-vertical" style="margin-left: 10px;">
+					                        <div class="btn-group-vertical" style="margin-left: 10px;">
 									<a href="javascript:void(0)" class="btn btn-default axisz" data-attribute-step="1" data-attribute-function="zdown">
 										<i class="fa fa-angle-double-up">
 										</i>&nbsp;Z
 									</a>
-			                        <hr />
+			                        			<hr />
 									<a href="javascript:void(0)" class="btn btn-default axisz" data-attribute-step="1" data-attribute-function="zup">
 										<i class="fa fa-angle-double-down">
 										</i>&nbsp; Z
 									</a>
 									
-								</div>
+							       </div>
+
+							</fieldset>
+
 							</div>
+
 						</div>
 			        </div>
         		</div>
@@ -285,6 +285,7 @@
 
 
     $("#act-joy").on('click', act_joy);
+    $("#goto_coords").on('click', jogToXY);
 
     $('#exec_button').on('click', function(){
         
@@ -576,6 +577,24 @@
     	});
 	
     }
+
+    function jogToXY(){
+	
+	$(".goto-coords").addClass('disabled');
+	var timestamp = new Date().getTime();
+
+        $.ajax({
+                type: "POST",
+                url : '/fabui/application/plugins/pcbmill/ajax/jogToXY.php',
+                data : { time: timestamp,
+			 xcoord: $("#XCoordinate").val(), 
+			 ycoord: $("#YCoordinate").val() },
+                dataType: "json"
+        }).done(function( data ) {
+            $(".goto-coords").removeClass('disabled');
+            
+        });
+}
 
 /*************************************************************************************************************************************/
 // Procrash's stuff here

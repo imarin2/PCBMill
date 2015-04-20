@@ -92,3 +92,10 @@
    margin-bottom: 7px;
 }
 
+.inline-label
+{
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
+}
