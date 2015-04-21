@@ -357,6 +357,8 @@ elif preset=="end_scan":
 #zero_all
 elif preset=="home_all":
     trace("Now homing all axes",log_trace)
+    macro("G91","ok",2,"set relative position",0,verbose=False)
+    macro("G0 Z30 F10000","ok",10,"Preventing tool collisions",0.1,verbose=False)
     macro("G90","ok",2,"set abs position",0,verbose=False)
     macro("G28","ok",100,"homing all axes",1,verbose=False)
 

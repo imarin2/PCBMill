@@ -23,7 +23,7 @@ chmod($_destination_response, 0777);
 sleep(1);
 
 /** EXEC COMMAND */
-$_command        = 'sudo python '.PYTHON_PATH.'gmacro.py home_all '.$_destination_trace.' '.$_destination_response.' > /dev/null';
+$_command        = 'sudo python /var/www/fabui/application/plugins/pcbmill/python/gmacro_extensions.py home_all '.$_destination_trace.' '.$_destination_response.' > /dev/null';
 //$_command        = 'sudo python /var/www/fabui/application/plugins/pcbmill/python gmacro.py external_endstop_coords '.$_destination_trace.' '.$_destination_response.' > /dev/null';
 $_output_command = shell_exec ( $_command );
 $_pid            = trim(str_replace('\n', '', $_output_command));
