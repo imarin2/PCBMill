@@ -515,8 +515,9 @@ elif preset=="external_endstop_coords":
     	trace("Touching coordinates : ("+str(x_user)+","+str(y_user)+","+str(z_touch)+")",log_trace)
 	response('{"x": '+str(x_user)+', "y":'+str(y_user)+', "z":'+str(z_user)+', "zt":'+str(z_touch)+'}\r\n');
 
+    macro("G91","ok",2,"Relative mode",1, verbose=False)
+    macro("G0 Z10 F1000","ok",3,"Moving away from touch point ",1,verbose=False )
     macro("G90","ok",2,"Abs_mode",1, verbose=False)
-    macro("G0 Z90 F1000","ok",3,"Moving the plane ",1,verbose=False )
     macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)
 
 if s_error>0:
