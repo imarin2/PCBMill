@@ -49,7 +49,7 @@ if($_type == 'additive'){
 sleep(1);
 
 /** EXEC COMMAND */
-$_command        = 'sudo python '.PYTHON_PATH.'gmacro.py check_pre_print '.$_destination_trace.' '.$_destination_response.' > /dev/null';
+$_command        = 'sudo python /var/www/fabui/application/plugins/pcbmill/python/gmacro_extensions.py check_pre_print '.$_destination_trace.' '.$_destination_response.' > /dev/null';
 $_output_command = shell_exec ( $_command );
 $_pid            = trim(str_replace('\n', '', $_output_command));
 
@@ -63,7 +63,26 @@ $_trace    = str_replace(PHP_EOL, '<br>', $_trace);
 //unlink($_destination_response);
 //unlink($_destination_trace);
 
+/**** Get the last zero point coordinates if any ****/
+$_coordcommand = "cat `ls -t -1 /var/www/fabui/application/plugins/pcbmill/python/temp/*.json | head -1`";
+/* */
+$_lastpointjson = shell_exec($_coordcommand);
 
+if ( "" != $_lastpointjson) {
+	$_lastcalibrationinfo = json_decode($_lastpointjson, TRUE);
+
+	/** RESPONSE */
+	$_response_items['xcoord']           = $_lastcalibrationinfo['bed_calibration']['point_measurements'][0][0];
+	$_response_items['ycoord']           = $_lastcalibrationinfo['bed_calibration']['point_measurements'][0][1];
+	//echo "x". $_response_items['xcoord'];
+	//echo "y". $_response_items['ycoord'];
+
+	file_put_contents('php://stderr', print_r($_response_items, TRUE));
+}
+else {
+        $_response_items['xcoord']           = 0;
+        $_response_items['ycoord']           = 0;
+}
 
 /** RESPONSE */
 //$_response_items['check_trace']        = $_destination_trace;

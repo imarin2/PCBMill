@@ -150,8 +150,8 @@ if preset=="check_pre_print":
     trace("Checking safety measures",log_trace)
     if(safety_door == 1):
         macro("M741","TRIGGERED",2,"Front panel door control",0.1)
-    macro("M744","TRIGGERED",1,"Building plane inserted correctly",0.1, warning=True)
-    macro("M744","TRIGGERED",1,"Spool panel control",0.1, warning=True)
+    #macro("M744","TRIGGERED",1,"Building plane inserted correctly",0.1, warning=True)
+    #macro("M744","TRIGGERED",1,"Spool panel control",0.1, warning=True)
     
 #pre_SCAN CHECK (SAFETY)
 elif preset=="check_pre_scan":

@@ -252,6 +252,9 @@
         var disableInputs = false;
         var joyActive = false;
 
+	var xcoord = 0;
+	var ycoord = 0;
+
 	$("#velocity-slider-container").removeClass('col-md-4 col-lg-4').addClass('col-md-6 col-lg-6');
 	$("#ext-slider-container").hide();
 	$("#bed-slider-container").hide();
@@ -399,6 +402,9 @@
 //                    $("#exec_button").html('Start');
 //                    $('.check_result').html('');
 //                    $("#exec_button").attr('data-action', 'configzero');
+			xcoord = response.xcoord;
+			ycoord = response.ycoord;
+
                 }else{
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-warning').addClass('txt-color-red');
                     $('.check_result').html(response.trace);
@@ -410,9 +416,10 @@
 //                closeWait();
 //                $('#exec_button').removeClass('disabled');
        	})//; // this is just pre-print
-	.then(function(response) {
+	.then(function(response) {	
 
-        $.ajax({
+
+        	$.ajax({
 //        		  url: ajax_endpoint + 'ajax/pre_print.php',
         		  url: '/fabui/application/plugins/pcbmill/ajax/prepare_to_zero.php',
         		  dataType : 'json',
@@ -429,6 +436,9 @@
                 	$("#row_2").slideUp('slow', function(){
                     	$("#row_3").slideDown('slow');
                     });
+
+                    xcoord: $("#XCoordinate").val(xcoord); 
+                    ycoord: $("#YCoordinate").val(ycoord);
 
                     $("#res-icon").removeClass('fa-spin').removeClass('fa-spinner').addClass('fa-check').addClass('txt-color-green');
                     $("#exec_button").html('Next');
