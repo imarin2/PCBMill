@@ -589,6 +589,8 @@
     }
 
     function jogToXY(){
+
+       	openWait('Moving to position...');
 	
 	$(".goto-coords").addClass('disabled');
 	var timestamp = new Date().getTime();
@@ -602,7 +604,7 @@
                 dataType: "json"
         }).done(function( data ) {
             $(".goto-coords").removeClass('disabled');
-            
+            closeWait();
         });
 }
 
