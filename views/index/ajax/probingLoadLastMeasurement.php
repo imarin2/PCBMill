@@ -6,15 +6,27 @@
 /** CREATE LOG FILES */
 //$_time                      = $_POST['time'];
 
-$PYTHON_PATH = "/var/www/fabui/application/plugins/advancedBedCalibration/assets/python/";
+$PYTHON_PATH = "/var/www/fabui/application/plugins/pcbmill/python/";
 $TEMP_PATH = $PYTHON_PATH."temp/";
 
-$_command = "ls -al ../../python/temp |  cut -d'_' -f2 | cut -d'.' -f1";
-$_output_command = shell_exec($_command); 
-$result = explode("\n", $_output_command);
 
+$_coordcommand = "ls -t -1 /var/www/fabui/application/plugins/pcbmill/python/temp/*.json | head -1";
+/* */
+$_output_command = shell_exec($_coordcommand);
 
-$contents=file_get_contents($TEMP_PATH."advancedBedCalibration_".$result[count($result)-2].".json");
-print $contents;
+$_lastpointjson = explode("\n", $_output_command);
+
+if ( "" != $_lastpointjson) {
+
+ 
+       //$_lastcalibrationinfo = json_decode($_lastpointjson, TRUE);
+
+	$contents=file_get_contents($_lastpointjson[0]);
+
+	file_put_contents('php://stderr', print_r($contents, TRUE));
+
+	print $contents;
+}
+
 ?>
 

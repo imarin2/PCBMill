@@ -12,6 +12,10 @@ global feedrate
 global num_probes
 global start_time
 
+global bedScanXGranularityNr
+global bedScanYGranularityNr
+
+
 num_probes = 1
 retractProbe = False
 feedrate = 200
@@ -58,6 +62,9 @@ try:
 		bedPoints=pointsFile.read()
 		bed_measurement_points = json.loads(bedPoints) #np.array(json.loads(bedPoints))
 		probed_points=bed_measurement_points[:-1] #all but last, because the dimensions are in the last
+		bedScanXGranularityNr=bed_measurement_points[-1][0];
+		bedScanYGranularityNr=bed_measurement_points[-1][1];
+
 	
 except:
 	print "Missing Log reference"
@@ -117,6 +124,8 @@ def printlog():
 	str_log += '"measurementInformation": { ' 
 	str_log += '"feedrate" : '+str(feedrate)+', '
 	str_log += '"probesPerPoint" :'+str(num_probes)+', ' 
+	str_log += '"bedScanXGranularityNr" :'+str(bedScanXGranularityNr)+', ' 
+	str_log += '"bedScanYGranularityNr" :'+str(bedScanYGranularityNr)+', ' 
 
 	current_time = time.time()
 	delta_time = current_time - start_time
@@ -278,7 +287,11 @@ for (p,point) in enumerate(probed_points):
 #now we have all the points, we move to the tool changing position that is X0 Y0 Z90
 x=probed_points[0][0];
 y=probed_points[0][1];
-macro("G0 X"+str(x)+" Y"+str(y)+" Z90 F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+macro("G0 X"+str(x)+" Y"+str(y)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+
+macro("G91","ok",2,"Relative mode",1, verbose=False)
+macro("G0 Z10 F1000","ok",3,"Moving away from touch point ",1,verbose=False )
+macro("G90","ok",2,"Abs_mode",1, verbose=False)
 
 macro("M18","ok",2,"Motors off",0.5, warning=True, verbose=False)
 macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)

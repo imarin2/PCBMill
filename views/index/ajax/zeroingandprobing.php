@@ -774,8 +774,22 @@ $.fn.textWidth = function(text, font) {
                 currentProgress = parseFloat(currentProgress.toFixed(2));
 
                 /*var currentBedScanGranularity = measurementInformation['bedscanGranularity'];*/
-		currentBedScanXGranularity = bedScanXGranularityNr;
-		currentBedScanYGranularity = bedScanYGranularityNr;
+		var currentBedScanXGranularity = measurementInformation['bedScanXGranularityNr']-1;
+		var currentBedScanYGranularity = measurementInformation['bedScanYGranularityNr']-1;
+
+		if (currentBedScanXGranularity != bedScanXGranularityNr) {
+     			hs=$('#SliderBedScanXGranularity').slider();
+	        	hs.slider('option', 'value', currentBedScanXGranularity);
+        		hs.slider('option','slide').call(hs,null,{ handle: $('.ui-slider-handle', hs), value: currentBedScanXGranularity });
+		}
+
+		if (currentBedScanYGranularity != bedScanYGranularityNr) {
+     			hs=$('#SliderBedScanYGranularity').slider();
+	        	hs.slider('option', 'value', currentBedScanYGranularity);
+        		hs.slider('option','slide').call(hs,null,{ handle: $('.ui-slider-handle', hs), value: currentBedScanYGranularity });
+		}
+
+			
 
                 var currentFeedrate = measurementInformation['feedrate'];
                 var currentProbesPerPoint = measurementInformation['probesPerPoint'];
