@@ -226,6 +226,7 @@ for i in range(0,len(probed_points)):
 nrPointsToMeasure*=num_probes
 
 z_safety= 5; # 5 mm of clearance with PCB
+z_toolchange= 30; # 30 mm from PCB to allow for a rapid still confortable change
 
 for (p,point) in enumerate(probed_points):
 	zp=point[2]+z_safety
@@ -287,11 +288,11 @@ for (p,point) in enumerate(probed_points):
 #now we have all the points, we move to the tool changing position that is X0 Y0 Z90
 x=probed_points[0][0];
 y=probed_points[0][1];
-macro("G0 X"+str(x)+" Y"+str(y)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+macro("G0 X"+str(x)+" Y"+str(y)+" Z"+str(zp-z_safety+z_toolchange)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
 
-macro("G91","ok",2,"Relative mode",1, verbose=False)
-macro("G0 Z10 F1000","ok",3,"Moving away from touch point ",1,verbose=False )
-macro("G90","ok",2,"Abs_mode",1, verbose=False)
+#macro("G91","ok",2,"Relative mode",1, verbose=False)
+#macro("G0 Z10 F1000","ok",3,"Moving away from touch point ",1,verbose=False )
+#macro("G90","ok",2,"Abs_mode",1, verbose=False)
 
 macro("M18","ok",2,"Motors off",0.5, warning=True, verbose=False)
 macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)
