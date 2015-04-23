@@ -34,6 +34,7 @@ try:
 
 	dozero = str(sys.argv[6]); # 0 = do not Zero, 1 = do Zero
 
+	zoffset_ovr = float(sys.argv[7]);
 	pointsFile = open(points_file, "r") 
 	bedPoints=pointsFile.read()
 	bed_measurement_points = json.loads(bedPoints) #np.array(json.loads(bedPoints))
@@ -169,8 +170,14 @@ while not data[:22]=="echo:endstops hit:  Z:":
    pass
 
 # we do not actually care of the z touching value of this tool, we just want to set the zero.
-macro("G92 X0 Y0 Z0","ok",2,"Set Zero",1, verbose=False)
+macro("G92 X0 Y0 Z"+str(-zoffset_ovr),"ok",2,"Set Zero",1, verbose=False)
+#macro("G91","ok",2,"Relative_mode",1, verbose=False)
+#macro("G0 Z"+str(zoffset_ovr)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
+macro("G90","ok",2,"Abs_mode",1, verbose=False)
+
 macro("M746 S0","ok",2,"Disabling external probe",1, verbose=False)
+
+#zoffset_ovr
 
 trace("Leveling gcode file...\r\n")
 gcode = CNC.GCode();

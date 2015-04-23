@@ -28,7 +28,7 @@ $_destination_points_file   = $TEMP_PATH . 'pcbmill_' . $_time . '.pts';
 $_measured_points            = $_POST['measuredPoints'];  /* json_decode not done as this is done in python */
 $_selected_file              = $_POST['file'];
 $_dozero	             = $_POST['dozero'];
-
+$_zoffset		     = $_POST['zoffset'];
 
 function eliminateEmptyArrayValues($myArray) {
 
@@ -62,7 +62,7 @@ fclose($myfile);
 /** EXEC COMMAND */
 $h_over = 50;
 
-$_command = 'sudo python '.$PYTHON_PATH.'ZeroToolAndLevelGcode.py ' . $_destination_response . ' ' . $_destination_trace . ' ' .$_destination_points_file.' '. $h_over .' ' .$_selected_file .' ' .$_dozero .' ';
+$_command = 'sudo python '.$PYTHON_PATH.'ZeroToolAndLevelGcode.py ' . $_destination_response . ' ' . $_destination_trace . ' ' .$_destination_points_file.' '. $h_over .' ' .$_selected_file .' ' .$_dozero .' ' .$_zoffset .' ';
 
 $_output_command = shell_exec($_command); 
 /** WAIT JUST 1 SECOND */

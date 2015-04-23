@@ -674,7 +674,7 @@ function print_object() {
 			//vado avanti negli step
 			$('#btn-next').trigger('click');
 			$('#status-icon').removeClass('hide');
-			$("#wizard-buttons").hide();
+			//$("#wizard-buttons").hide();
 			closeWait();
 			ticker_url = '';
 			$("#details").trigger('click');
@@ -767,7 +767,8 @@ function check_wizard(){
     }
 
     if(item.step == 4){
-//	$("#wizard-buttons").hide();    	
+	$("#wizard-buttons").hide();    	
+//    	$("#wizard-buttons").show();
 	$("#step4").html('');
 
             $.ajax({
@@ -790,8 +791,9 @@ function check_wizard(){
     
 
     if(item.step > 4){
+    	$("#wizard-buttons").show();
         
-        $("#wizard-buttons").hide();
+        //$("#wizard-buttons").hide();
         
     }else{
         
@@ -811,6 +813,9 @@ function check_wizard(){
 
 
 	    $("#step4").html('');
+
+	    // Jog to leave enough space for changing tool
+	    jogRelativeTo(0,0,15);
 
             $.ajax({
                 url: '/fabui/plugin/pcbmill/show/preparemanufacture.php',
@@ -900,4 +905,23 @@ function _stop_trace() {
 	clearInterval(interval_trace);
 }
 
+function jogRelativeTo(x,y,z){
 
+        openWait('Moving to position...');
+        
+        $(".goto-coords").addClass('disabled');
+        var timestamp = new Date().getTime();
+
+        $.ajax({
+                type: "POST",
+                url : '/fabui/application/plugins/pcbmill/ajax/jogRelative.php',
+                data : { time: timestamp,
+                         xcoord: x, 
+                         ycoord: y,
+			 zcoord: z },
+                dataType: "json"
+        }).done(function( data ) {
+            $(".goto-coords").removeClass('disabled');
+            closeWait();
+        });
+}

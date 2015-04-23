@@ -4,6 +4,17 @@
                 <h5 class="text-left">The file that will be manufactured in this step is:</h5>
                 <h5 class="text-left"><b><div id="manufacture_filename"></div></b></h5>
                 <h5 class="text-left">Please mount the right tool for the job before proceeding.</h5>
+                <h5 class="text-left">You may introduce a tool offset correction here:</h5>
+ 
+               <fieldset style="background: none;">
+	               <div class="row">
+        	               <section class="col col-4">
+                	               <label for="ZOffset" class="inline-label">Z Offset (mm): </label>
+                                       <input name="ZOffset" class="text-center" type="text" id="ZOffset" value="0">
+                               </section>
+        		</div>
+               </fieldset>
+
         </div>
 </div>
 <div id="row_2" class="row interstitial" style="display: none;">
@@ -81,7 +92,8 @@ var leveled_file_path="";
 			    file : files_selected[currently_manufacturing].full_path, 
 			    time: timestamp,
 	                    measuredPoints: JSON.stringify(measuredpoints),
-			    dozero: is_zeroed?0:1 // if not yet zeroed to localsystem, do it now
+			    dozero: is_zeroed?0:1, // if not yet zeroed to localsystem, do it now
+			    zoffset: $("#ZOffset").val()
 			  },
                           beforeSend: function( xhr ) {
                           },
