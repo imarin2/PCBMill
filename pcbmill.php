@@ -3,7 +3,7 @@
  Plugin Name: PCBMill
  Plugin URI: https://github.com/imarin2/PCBMill
  Version: 0.1
- Description: Plugin to mill insulation milling files, as the ones created with FlatCAM or Heekscnc. Including code from FABUI and Procrash's advance bed calibration plugin.
+ Description: Plugin to mill insulation milling files, as the ones created with FlatCAM or Heekscnc. Including code from FABUI, Toharas Joystickjog, Procrash's advance bed calibration plugin and autoleveling code from bCNC project
  Author: Imarin (if you contribute code, put your name here)
  Author URI: http://forum.fabtotum.cc/showthread.php?1589-PCBMill-A-new-FABtotum-pluging-to-mill-PCBs&p=5319#post5319
  Plugin Slug: pcbmill
@@ -24,6 +24,7 @@ class Pcbmill extends Plugin {
 	  }
 
 	  $this->lang->load($_SESSION['language']['name'], $_SESSION['language']['name']);
+
 	}
 
 	public function index() {
@@ -346,6 +347,9 @@ class Pcbmill extends Plugin {
 	public function remove(){
 
 		/** TO DO  */
+
+		/** This is a work-around not used in the intended way, but facilitating the user experience **/
+	  	shell_exec('sudo cp /var/www/fabui/application/plugins/pcbmill/firmware/Marlin.cpp.hex /var/www/build/Marlin.cpp.hex');
 
 		/** remove files */
 		shell_exec('sudo rm -rf '.PLUGINSPATH.strtolower(get_class($this)));
