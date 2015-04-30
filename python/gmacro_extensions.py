@@ -477,6 +477,10 @@ elif preset=="set_zero":
     trace("setting_zero",log_trace)
     macro("G92 X0 Y0 Z0","ok",5,"Setting Zero",1, verbose=True)
 
+elif preset=="energize_motors":
+    trace("Energising steppers for 60 seconds...",log_trace)
+    macro("M17","ok",5,"All steppers On",0.1, verbose=False)
+    macro("M84 S60","ok",5,"Steppers off again in 60 seconds",0.1, verbose=False)
 
 elif preset=="external_endstop_coords":
     trace("Acquiring zero point",log_trace)
