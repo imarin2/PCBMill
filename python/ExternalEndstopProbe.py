@@ -36,18 +36,21 @@ try:
 
 	accuracy = int(sys.argv[6])
 
+	#testing
+	accuracy = 50;
+
 	if (accuracy == 0):
-		feedrate = 200	
+		feedrate = 100	
 		retractProbe = False
 		num_probes = 1
 	if (accuracy == 50): 
 		feedrate = 100
 		retractProbe = True
-		num_probes = 2
+		num_probes = 10
 	if (accuracy == 100):
-		feedrate = 50
+		feedrate = 100
 		retractProbe = True
-		num_probes = 4
+		num_probes = 100
 	if (accuracy == 150):
 		feedrate = 20
 		retractProbe = True
@@ -228,6 +231,8 @@ nrPointsToMeasure*=num_probes
 z_safety= 5; # 5 mm of clearance with PCB
 z_toolchange= 30; # 30 mm from PCB to allow for a rapid still confortable change
 
+exclude_N_meas_first_point = 5;
+
 for (p,point) in enumerate(probed_points):
 	zp=point[2]+z_safety
 
@@ -239,6 +244,23 @@ for (p,point) in enumerate(probed_points):
 		#Touches 4 times the bed in the same position
 		probes=num_probes #temp
 		point[2] = ["" for x in range(num_probes)] #np.empty(num_probes)
+
+		if (p==0): # This executes the measurement of the excluded measurements given by exclude_N_meas_first_point, which are well...excluded from the data returned
+			for j in range(exclude_N_meas_first_point):
+				serial_reply=""
+				serial.flushInput()
+	                        #G38    
+				serial.write("G38 S"+str(feedrate)+"\r\n") 
+	                        #time.sleep(0.5)                        #give it some to to start       
+				probe_start_time = time.time()
+				while not serial_reply[:22]=="echo:endstops hit:  Z:":
+					serial_reply=serial.readline().rstrip()
+                                	#issue G38 and waits reply.
+					if (time.time() - probe_start_time>240):        #timeout management
+						break
+				macro("G0 Z"+str(zp)+" F5000","ok",10,"Rising Bed",0, warning=True, verbose=False)
+
+
 		for i in range(0,num_probes):
 			# Raise probe first, to level out errors of probe retracts?!?
 #			if (retractProbe == True):
@@ -246,10 +268,10 @@ for (p,point) in enumerate(probed_points):
 
 			#M401
 #			macro("M401","ok",2,"Lowering Probe",1, warning=True, verbose=False)	
-		
+			serial_reply=""		
 			serial.flushInput()
 			#G38	
-			serial.write("G38 S100\r\n")
+			serial.write("G38 S"+str(feedrate)+"\r\n")
 			#time.sleep(0.5)			#give it some to to start	
 			probe_start_time = time.time()
 			while not serial_reply[:22]=="echo:endstops hit:  Z:":
