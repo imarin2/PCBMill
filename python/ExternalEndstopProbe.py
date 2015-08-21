@@ -37,12 +37,12 @@ try:
 	accuracy = int(sys.argv[6])
 
 	#testing
-	accuracy = 50;
+	accuracy = 0;
 
 	if (accuracy == 0):
 		feedrate = 100	
 		retractProbe = False
-		num_probes = 1
+		num_probes = 5
 	if (accuracy == 50): 
 		feedrate = 100
 		retractProbe = True
