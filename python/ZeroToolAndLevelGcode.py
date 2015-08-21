@@ -13,7 +13,7 @@ global feedrate
 global num_probes
 global start_time
 
-num_probes = 1
+num_probes = 5
 retractProbe = False
 feedrate = 200
 start_time = time.time()
@@ -134,7 +134,7 @@ serial.flushInput()
 macro("M18","ok",2,"Motors off",0.5, warning=True, verbose=False)
 
 macro("M402","ok",2,"Retracting Probe (safety)",1, verbose=False)	
-macro("G90","ok",2,"Abs_mode",1, verbose=False)
+macro("G90","ok",2,"Abs_mode",0.1, verbose=False)
 
 z_safety= 5; # 5 mm of clearance with PCB
 
@@ -151,26 +151,46 @@ if dozero == 1:
 	# Go to zero position
 	macro("G0 X"+str(x)+" Y"+str(y)+" Z"+str(zp)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
 	macro("G92 X0 Y0","ok",2,"Setting Local coordinate system",1, verbose=True)
-	
-# probe with the new tool to set zero
-serial.flushInput()
-serial.write("G38 S100\r\n")
-probe_start_time = time.time()
 
-data=""
+z_avg = 0
+z_current = 0
+zmp = 2 # 2mm safety margin for repetitive probing from last measurement
 
-while not data[:22]=="echo:endstops hit:  Z:":
-   data=serial.readline().rstrip() 
-   if (time.time() - probe_start_time>240):  #timeout management
-   	trace("Touch probing failed")
-        response("false")
-        response("false")
-	sys.exit("Can not touch the PCB")
-        break   
-   pass
+# macro("G91","ok",2,"Relative Mode",0.1, verbose=False)
+for i in range(0,num_probes):	
+	# probe with the new tool to set zero
+	serial.flushInput()
+	serial.write("G38 S100\r\n")
+	probe_start_time = time.time()
 
+	data=""
+
+	while not data[:22]=="echo:endstops hit:  Z:":
+	   data=serial.readline().rstrip() 
+	   if (time.time() - probe_start_time>240):  #timeout management
+	   	trace("Touch probing failed")
+	        response("false")
+	        response("false")
+		sys.exit("Can not touch the PCB")
+	        break   
+	   pass
+
+	if data!="":
+        	z_current=float(data.split("Z:")[1].strip())
+                z_avg+=z_current/num_probes
+                        
+	serial_reply=""
+        serial.flushInput()
+
+	print "z: " + str(z_current) + "z_avg:" + str(z_avg)
+
+	if(num_probes>1 and i!=(num_probes-1)):
+        	macro("G0 Z"+str(z_current+zmp)+" F5000","ok",10,"Rising Bed",0, warning=True, verbose=False)
+
+
+# the last touching position may be biased with respect to the average, so correct
 # we do not actually care of the z touching value of this tool, we just want to set the zero.
-macro("G92 X0 Y0 Z"+str(-zoffset_ovr),"ok",2,"Set Zero",1, verbose=False)
+macro("G92 X0 Y0 Z"+str(-zoffset_ovr+z_current-z_avg),"ok",2,"Set Zero",1, verbose=True)
 #macro("G91","ok",2,"Relative_mode",1, verbose=False)
 #macro("G0 Z"+str(zoffset_ovr)+" F10000","ok",15,"Moving to Pos",0, warning=True,verbose=False)
 macro("G90","ok",2,"Abs_mode",1, verbose=False)
