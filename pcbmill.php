@@ -344,12 +344,11 @@ class Pcbmill extends Plugin {
 	  }
 	}
 
+	public function activate() {
+		shell_exec('sudo chmod 777 '.PLUGINSPATH.strtolower(get_class($this)).'python/temp');
+	}
+
 	public function remove(){
-
-		/** TO DO  */
-
-		/** This is a work-around not used in the intended way, but facilitating the user experience **/
-	  	shell_exec('sudo cp /var/www/fabui/application/plugins/pcbmill/firmware/Marlin.cpp.hex /var/www/build/Marlin.cpp.hex');
 
 		/** remove files */
 		shell_exec('sudo rm -rf '.PLUGINSPATH.strtolower(get_class($this)));
