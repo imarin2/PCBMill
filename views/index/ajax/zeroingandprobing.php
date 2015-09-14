@@ -84,6 +84,31 @@
 										</div>
 
 									</fieldset>
+
+									<fieldset style="background: none;">
+ 										<div class="row">
+ 											<section class="col col-4">
+												<label class="label text-center">Step (mm)</label>
+												<label class="input-sx">
+													<input class="text-center" type="text" id="step" value="10">
+												</label>
+ 											</section>
+ 											<section class="col col-4">
+												<label class="label text-center">Feedrate</label>
+												<label class="input-sx">
+													<input class="text-center" type="text" id="feedrate" value="1000">
+												</label>
+ 											</section>
+ 											<section class="col col-4">
+												<label class="label text-center">Z Step (mm)</label>
+												<label class="input-sx"> 
+													<input class="text-center" type="text" id="z-step" value="5">
+												</label>
+ 											</section>
+ 										</div>
+ 									</fieldset>
+
+
 								</div>
 							</div>
 						</div>
