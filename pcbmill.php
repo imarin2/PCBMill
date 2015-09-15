@@ -345,7 +345,7 @@ class Pcbmill extends Plugin {
 	}
 
 	public function activate() {
-		shell_exec('sudo chmod 777 '.PLUGINSPATH.strtolower(get_class($this)).'python/temp');
+		shell_exec('sudo chmod 777 '.PLUGINSPATH.strtolower(get_class($this)).'/python/temp');
 	}
 
 	public function remove(){
