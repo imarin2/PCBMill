@@ -44,7 +44,7 @@ class FabJoyFunctions(object):
         
     
     def _setupFunctions(self):
-        f = open('/var/www/fabui/application/plugins/joystickjog/assets/python/jsbuttons.json', 'r')
+        f = open('/var/www/fabui/application/plugins/pcbmill/assets/python/jsbuttons.json', 'r')
         fc = f.read()
         jsonD = JSONDecoder()
         funcDict = jsonD.decode(fc)
