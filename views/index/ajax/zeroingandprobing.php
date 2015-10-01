@@ -247,7 +247,7 @@
 			            <p id="SliderBedScanYGranularityText" class="text-center">Granularity in Y axis</p>
 			            <div id="SliderBedScanYGranularity" style="left:50%; margin-left: -150px; width: 300px;"></div>
 			            <p class="text-center" style="margin-top: 10px;">
-			                <a id="ButtonStartStop" href="javascript:void(0);" class="btn btn-primary btn-default do-calibration" name="ButtonStartStop">Start probing</a>
+			                <a id="ButtonStartStop" href="javascript:void(0);" class="btn btn-primary btn-default do-calibration" name="ButtonStartStop">Start</a>
 			            </p>
 			            <p class="text-center" style="margin-top: 10px;">
 			                <a id="ButtonLoadLastMeasurement" href="javascript:void(0);" class="btn btn-primary btn-default load-last-measurement" name="ButtonLoadLastMeasurement">Load last probing</a>
