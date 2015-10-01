@@ -831,7 +831,29 @@ function check_wizard(){
 
 	}
 	else {
-		// We have finished all selected files
+		// We have finished all selected files, but we might want to repeat the last job
+
+	    $('.wizard').wizard('selectedItem', { step: 4 });
+
+	    manufacturingstep--;
+
+            $("#step4").html('');
+
+            // Jog to leave enough space for changing tool
+            jogRelativeTo(0,0,15);
+
+            $.ajax({
+                url: '/fabui/plugin/pcbmill/show/preparemanufacture.php',
+                cache: false
+            })
+              .done(function( html ) {
+                $("#step4").html(html);
+ 
+                currently_manufacturing = files_manufacture_order.indexOf(manufacturingstep.toString());
+
+                $('#manufacture_filename').html(files_selected[currently_manufacturing].file_name);
+              });
+
 	}
 
     }
